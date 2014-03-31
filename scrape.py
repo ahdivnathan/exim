@@ -3,9 +3,10 @@ import json
 import csv
 import string
 import requests
+import os
 
 """
-This is a script that scrapes the Observatory for Economic Complexity
+This is a script that scrapes the Observatory of Economic Complexity
 at MIT's Media Lab.  For each country whose data we scrape, we are collecting
 various pieces of information regarding who they import and export from, and
 what products they import and export.
@@ -52,50 +53,42 @@ def get_product_data(year, country):
     page = requests.get(url)
     return page.json().values()[0]
 
-def get_year_data(year):
+def write_data_to_files():
     """
-    This function returns a dictionary of data for a particular year of
-    every country in the world.  It utilizes the 'get_data' function above
-    to aggregate all of the data for a particular year, and utilizes the
-    'load_country_dict' function to scrape data for that year.
-    
-    Returns: A dictionary for which the keys are countries and the values are
-    the countries' export/import data for the given year.
+    This function uses get_product_data() and get_partner_data() to write
+    files containing the data scraped from the Observatory of Economic
+    Complexity.  These will be formatted as CSVs for easy access later.
     """
     
-    year_dict = {}
     country_dict = load_country_dict()
-    for country in country_dict.keys():
-        year_dict[country] = get_data(year, country)
-    return year_dict
-
-def get_country_data(country):
-    """
-    This function returns a dictionary of data for a particular country,
-    with data for every year from 1995 to 2011.  Some countries may not
-    have data for all of these years, or for any.
+    countries = country_dict.keys()
+    years = range(1995, 2013)
+    for country in countries:
+        os.makedirs('data/part/' + country)
+        os.makedirs('data/prod/' + country)
+        for year in years:
+            f = open('data/part/' + country + '/' + str(year) + '.txt', 'wb')
+            writer = csv.writer(f)
+            to_write = []
+            part_raw_data = get_partner_data(year, country)
+            for i in range(len(part_raw_data)):
+                temp = []
+                temp.append(part_raw_data[i]['dest_id'])
+                temp.append(part_raw_data[i]['export_val'])
+                temp.append(part_raw_data[i]['import_val'])
+                to_write.append(temp)
+            writer.writerows(to_write)
+            f.close()
+            f = open('data/prod/' + country + '/' + str(year) + '.txt', 'wb')
+            writer = csv.writer(f)
+            to_write = []
+            prod_raw_data = get_product_data(year, country)
+            for i in range(len(part_raw_data)):
+                temp = []
+                temp.append(prod_raw_data[i]['dest_id'])
+                temp.append(prod_raw_data[i]['export_val'])
+                temp.append(prod_raw_data[i]['import_val'])
+                to_write.append(temp)
+            writer.writerows(to_write)
+            f.close()
     
-    Returns: A dictionary for which the keys are years and the values are
-    the country's export/import data for that particular year
-    """
-    
-    year_dict = {}
-    for i in range(1995, 2012):
-        data = get_data(i, country)
-        if data:
-            year_dict[str(i)] = data
-    return year_dict
-
-def get_all_data():
-    """
-    This function returns a dictionary of data for all years, in which
-    the keys are years, and the values are all countries' import/export
-    data for that particular year.
-    """
-    
-    main_dict = {}
-    for i in range(1995, 2012):
-        data = get_year_data(i)
-        if data:
-            main_dict[str(i)] = data
-    return main_dict
