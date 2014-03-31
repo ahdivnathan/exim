@@ -74,8 +74,14 @@ def write_data_to_files():
             for i in range(len(part_raw_data)):
                 temp = []
                 temp.append(part_raw_data[i]['dest_id'])
-                temp.append(part_raw_data[i]['export_val'])
-                temp.append(part_raw_data[i]['import_val'])
+                if 'export_val' in part_raw_data[i].keys():
+                    temp.append(part_raw_data[i]['export_val'])
+                else:
+                    temp.append(0)
+                if 'import_val' in part_raw_data[i].keys():
+                    temp.append(part_raw_data[i]['import_val'])
+                else:
+                    temp.append(0)
                 to_write.append(temp)
             writer.writerows(to_write)
             f.close()
@@ -83,12 +89,17 @@ def write_data_to_files():
             writer = csv.writer(f)
             to_write = []
             prod_raw_data = get_product_data(year, country)
-            for i in range(len(part_raw_data)):
+            for i in range(len(prod_raw_data)):
                 temp = []
-                temp.append(prod_raw_data[i]['dest_id'])
-                temp.append(prod_raw_data[i]['export_val'])
-                temp.append(prod_raw_data[i]['import_val'])
+                temp.append(prod_raw_data[i]['hs_id'])
+                if 'export_val' in prod_raw_data[i].keys():
+                    temp.append(prod_raw_data[i]['export_val'])
+                else:
+                    temp.append(0)
+                if 'import_val' in prod_raw_data[i].keys():
+                    temp.append(prod_raw_data[i]['import_val'])
+                else:
+                    temp.append(0)
                 to_write.append(temp)
             writer.writerows(to_write)
             f.close()
-    
