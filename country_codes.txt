@@ -9,8 +9,6 @@ are,United Arab Emirates
 arg,Argentina
 arm,Armenia
 asm,American Samoa
-ata,Antarctica
-atf,French South Antarctic Territory
 atg,Antigua and Barbuda
 aus,Australia
 aut,Austria
