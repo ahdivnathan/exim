@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>World Trade Project</title>
+    <title>Data Cleaning</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -1717,10 +1717,10 @@ init_mathjax();
 
 
     <!-- Open Graph tags -->
-            <meta property="og:type" content="website"/>
-            <meta property="og:title" content="World Trade Project"/>
-            <meta property="og:url" content="http://ahdivnathan.github.io/exim"/>
-            <meta property="og:description" content="World Trade Project"/>
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="Data Cleaning"/>
+            <meta property="og:url" content="http://ahdivnathan.github.io/exim/nb2.html"/>
+            <meta property="og:description" content="In this notebook, you'll load the raw data into R or Pandas dataframe from the ./data/raw directory using the functions and classes (written during the data gathering phase) in the ./script directory perform visual exploration on your data variables to detect anomalies, errors, outliers, interesting features etc. clean ..."/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="http://ahdivnathan.github.io/exim/theme/css/bootstrap.min.css" type="text/css"/>
@@ -1788,69 +1788,267 @@ World Trade Project            </a>
     <div class="row">
         <div class="col-sm-9">
 
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/nb4.html">Project Report</a></h2>
-                <div class="summary"><p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll sumarize your finding for the class presentation.</p>
-<p>The class presentation will use this notebook in slide mode, as I do during lecture time.</p>
-<p>You'll need to download the following <a href="https://github.com/fperez/nb-slideshow-template/archive/master.zip">zip file</a>, unzip it, and run the following notebook <code>install-support.ipynb</code> to install the slide ...</p></div></p>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb4.html">more ...</a>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://ahdivnathan.github.io/exim/nb2.html"
+                       rel="bookmark"
+                       title="Permalink to Data Cleaning">
+                        Data Cleaning
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-03-02T00:00:00">Sun 02 March 2014</time>
+    </span>
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/nb3.html">Data Analysis</a></h2>
-                <div class="summary"><p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll perform the actual analysis of the data stored in the directory</p>
-<pre><code>./data/cleaned</code></pre>
-<p>If the data is not ready yet (e.g. the other members of the team in charge of cleaning the data are not done yet), you may want to simulate cleaned data ...</p></div></p>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/nb2.html">Data Cleaning</a></h2>
-                <div class="summary"><p>
+                <p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this notebook, you'll</p>
 <ul>
 <li><p><strong>load the raw data into R or Pandas dataframe</strong> from the <code>./data/raw</code> directory using the functions and classes (written during the data gathering phase) in the <code>./script</code> directory</p></li>
 <li><p><strong>perform visual exploration</strong> on your data variables to detect anomalies, errors, outliers, interesting features etc.</p></li>
-<li><p><strong>clean ...</strong></p></li></ul></div></p>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/nb1.html">Data Gathering</a></h2>
-                <div class="summary"><p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll</p>
-<ul>
-<li>create the directory structure for your project</li>
-<li>download the raw data for your project</li>
-<li><strong>write functions and classes to transform raw data (e.g in XML, jason, etc.) into data frames</strong></li>
-<li>explain what your are doing</li>
+<li><p><strong>clean categorical and quantitative variables</strong> (by removing observations and variables with too many missing values, by consolidating categorical variables, by selecting an appropriate subset of variables and observations for later analysis, etc.)</p></li>
+<li><p><strong>save the cleaned data</strong> into csv files in the <code>./data/cleaned</code> directory</p></li>
+<li><p><strong>save interesting graphics</strong> you obtained during visual exploration into the <code>./visualiation</code> directory</p></li>
 </ul>
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="team-members-responsible-for-this-notebook">Team members responsible for this notebook:</h2>
-<p>List the team ...</p></div></p>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/reproducibility.html">Reproducibility</a></h2>
-                <div class="summary"><h1>Reproducibility</h1>
-<h2>Virtual OskiBox</h2>
-<h2>Software Requirements</h2>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/reproducibility.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
+<p>List the team members contributing to this notebook, along with their responsabilities:</p>
+<ul>
+<li>team member 1 <strong>name</strong>: team member 1 <strong>responsabilities</strong></li>
+<li>team member 2 <strong>name</strong>: team member 2 <strong>responsabilities</strong></li>
+<li>etc.</li>
+</ul>
+<p>I advise you to work at least in pairs for each project notebook, as you did for the homework assignments. Of course, all team members may participate to each notebook.</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here I'll load the plant data in xml format into a R data frame using the</p>
+<pre><code>create_df_from_plant_xml(file)</code></pre>
+<p>function contained in the R script</p>
+<pre><code>    ./script/plant_df-R</code></pre>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[4]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%</span><span class="k">load_ext</span> <span class="n">rmagic</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt"></div>
+<div class="box-flex1 output_subarea output_stream output_stdout">
+<pre>
+The rmagic extension is already loaded. To reload it, use:
+  %reload_ext rmagic
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To load the function into a R cell, one needs to use the</p>
+<pre><code>source(R_script_file)</code></pre>
+<p>command in R, which works in a similar way as the</p>
+<pre><code>import module</code></pre>
+<p>command in Python:</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[5]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
+<span class="n">source</span><span class="p">(</span><span class="s">&#39;./script/plant_df-R&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, we can create a data frame directly from the XML file using the functin contained in the scrip above.</p>
+<p>If you wish to perform the cleaning using Pandas data frames instead of R data frames, one make the R data frame available to Python cells by using the R magic command:</p>
+<pre><code>%%R -d df_name</code></pre>
+<p>To know more on how to pass variables back and forth between R and Python cells, please have a look at the notebook <a href="http://nbviewer.ipython.org/url/github.com/ipython/ipython/raw/master/examples/notebooks/R%20Magics.ipynb">here</a>.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[7]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span>
+
+<span class="n">library</span><span class="p">(</span><span class="n">XML</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">create_df_from_plant_xml</span><span class="p">(</span><span class="s">&#39;./data/raw/plant.xml&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let's load our data into a Pandas data frame:</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[8]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt output_prompt">
+    Out[8]:</div>
+<div class="box-flex1 output_subarea output_pyout">
+
+<div class="output_html rendered_html">
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>COMMON</th>
+      <th>BOTANICAL</th>
+      <th>ZONE</th>
+      <th>LIGHT</th>
+      <th>PRICE</th>
+      <th>AVAILABILITY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>           Bloodroot</td>
+      <td> Sanguinaria canadensis</td>
+      <td> 4</td>
+      <td> Mostly Shady</td>
+      <td> $2.44</td>
+      <td> 031599</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>           Columbine</td>
+      <td>   Aquilegia canadensis</td>
+      <td> 3</td>
+      <td> Mostly Shady</td>
+      <td> $9.37</td>
+      <td> 030699</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>      Marsh Marigold</td>
+      <td>       Caltha palustris</td>
+      <td> 4</td>
+      <td> Mostly Sunny</td>
+      <td> $6.81</td>
+      <td> 051799</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>             Cowslip</td>
+      <td>       Caltha palustris</td>
+      <td> 4</td>
+      <td> Mostly Shady</td>
+      <td> $9.90</td>
+      <td> 030699</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td> Dutchman's-Breeches</td>
+      <td>    Dicentra cucullaria</td>
+      <td> 3</td>
+      <td> Mostly Shady</td>
+      <td> $6.44</td>
+      <td> 012099</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The actual data cleaning can now begins!</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb">
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb">
+</pre></div>
+
+</div>
+</div>
+
+</div></p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3 well well-sm" id="sidebar">

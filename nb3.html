@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>World Trade Project</title>
+    <title>Data Analysis</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -1717,10 +1717,10 @@ init_mathjax();
 
 
     <!-- Open Graph tags -->
-            <meta property="og:type" content="website"/>
-            <meta property="og:title" content="World Trade Project"/>
-            <meta property="og:url" content="http://ahdivnathan.github.io/exim"/>
-            <meta property="og:description" content="World Trade Project"/>
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="Data Analysis"/>
+            <meta property="og:url" content="http://ahdivnathan.github.io/exim/nb3.html"/>
+            <meta property="og:description" content="In this notebook, you'll perform the actual analysis of the data stored in the directory ./data/cleaned If the data is not ready yet (e.g. the other members of the team in charge of cleaning the data are not done yet), you may want to simulate cleaned data ..."/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="http://ahdivnathan.github.io/exim/theme/css/bootstrap.min.css" type="text/css"/>
@@ -1788,69 +1788,55 @@ World Trade Project            </a>
     <div class="row">
         <div class="col-sm-9">
 
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/nb4.html">Project Report</a></h2>
-                <div class="summary"><p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll sumarize your finding for the class presentation.</p>
-<p>The class presentation will use this notebook in slide mode, as I do during lecture time.</p>
-<p>You'll need to download the following <a href="https://github.com/fperez/nb-slideshow-template/archive/master.zip">zip file</a>, unzip it, and run the following notebook <code>install-support.ipynb</code> to install the slide ...</p></div></p>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb4.html">more ...</a>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://ahdivnathan.github.io/exim/nb3.html"
+                       rel="bookmark"
+                       title="Permalink to Data Analysis">
+                        Data Analysis
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-03-03T00:00:00">Mon 03 March 2014</time>
+    </span>
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/nb3.html">Data Analysis</a></h2>
-                <div class="summary"><p>
+                <p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this notebook, you'll perform the actual analysis of the data stored in the directory</p>
 <pre><code>./data/cleaned</code></pre>
-<p>If the data is not ready yet (e.g. the other members of the team in charge of cleaning the data are not done yet), you may want to simulate cleaned data ...</p></div></p>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/nb2.html">Data Cleaning</a></h2>
-                <div class="summary"><p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll</p>
-<ul>
-<li><p><strong>load the raw data into R or Pandas dataframe</strong> from the <code>./data/raw</code> directory using the functions and classes (written during the data gathering phase) in the <code>./script</code> directory</p></li>
-<li><p><strong>perform visual exploration</strong> on your data variables to detect anomalies, errors, outliers, interesting features etc.</p></li>
-<li><p><strong>clean ...</strong></p></li></ul></div></p>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/nb1.html">Data Gathering</a></h2>
-                <div class="summary"><p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll</p>
-<ul>
-<li>create the directory structure for your project</li>
-<li>download the raw data for your project</li>
-<li><strong>write functions and classes to transform raw data (e.g in XML, jason, etc.) into data frames</strong></li>
-<li>explain what your are doing</li>
-</ul>
+<p>If the data is not ready yet (e.g. the other members of the team in charge of cleaning the data are not done yet), you may want to simulate cleaned data in the form you want them to be in order to perform the analysis. This may also help you data cleaning team to come up with the rigth data frame. If you choose to do so, store your simulated data into the directory</p>
+<pre><code>./data/simulated</code></pre>
+<p>Having performed analysis of simulated data may help you with the analysis of the actual data, since you will be able to notice deviations between the real and simulated data, which may be worth explaining and investigating further.</p>
+<p>The graphics your going to produce as a result of your analysis should be store in the directory:</p>
+<pre><code>./visualization</code></pre>
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="team-members-responsible-for-this-notebook">Team members responsible for this notebook:</h2>
-<p>List the team ...</p></div></p>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="http://ahdivnathan.github.io/exim/reproducibility.html">Reproducibility</a></h2>
-                <div class="summary"><h1>Reproducibility</h1>
-<h2>Virtual OskiBox</h2>
-<h2>Software Requirements</h2>
-                    <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/reproducibility.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
+<p>List the team members contributing to this notebook, along with their responsabilities:</p>
+<ul>
+<li>team member 1 <strong>name</strong>: team member 1 <strong>responsabilities</strong></li>
+<li>team member 2 <strong>name</strong>: team member 2 <strong>responsabilities</strong></li>
+<li>etc.</li>
+</ul>
+<p>I advise you to work at least in pairs for each project notebook, as you did for the homework assignments. Of course, all team members may participate to each notebook.</p>
+</div></p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3 well well-sm" id="sidebar">
