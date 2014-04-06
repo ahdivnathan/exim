@@ -8,7 +8,6 @@ ant,Netherlands Antilles
 are,United Arab Emirates
 arg,Argentina
 arm,Armenia
-asm,American Samoa
 atg,Antigua and Barbuda
 aus,Australia
 aut,Austria
@@ -96,7 +95,6 @@ guf,French Guiana
 gum,Guam
 guy,Guyana
 hkg,Hong Kong
-hmd,Heard Island and McDonald Islands
 hnd,Honduras
 hrv,Croatia
 hti,Haiti
@@ -199,7 +197,6 @@ scg,Serbia and Montenegro
 sdn,Sudan
 sen,Senegal
 sgp,Singapore
-sgs,South Georgia South Sandwich Islands
 shn,Saint Helena
 sjm,Svalbard
 slb,Solomon Islands
