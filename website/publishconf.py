@@ -14,7 +14,7 @@ from pelicanconf import *
 # URL of the github repository website associated with the fork
 # of this repository  (Replace accordingly)
 ####################################################################
-SITEURL = 'http://anlinwinarto.github.io/data-analysis-template'
+SITEURL = 'http://ahdivnathan.github.io/exim'
 ####################################################################
 
 
