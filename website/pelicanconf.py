@@ -7,10 +7,10 @@ import os
 # AUTHORSHIP AND WEBSITE INFO (Replace accordingly)
 ###################################################
 
-AUTHOR = u'Anlin Winarto'
-SITENAME = u'Data Analysis Project'
+AUTHOR = u'Ahdiv Nathan'
+SITENAME = u'World Trade Project'
 SITESUBTITLE = u'Template using the iPython notebook'
-GITHUB_REPOSITORY_URL = u'https://github.com/anlinwinarto/data-analysis-template'
+GITHUB_REPOSITORY_URL = u'https://github.com/ahdivnathan/exim'
 
 ###################################################
 # FINER WEBSITE CONF (Defaults should be okay)
