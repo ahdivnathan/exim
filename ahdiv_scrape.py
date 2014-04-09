@@ -4,6 +4,11 @@ import csv
 import string
 import requests
 import os
+from pandas import DataFrame
+from numpy import array
+from numpy import ndarray
+from numpy import matrix
+import numpy
 
 """
 This is a script that scrapes the Observatory of Economic Complexity at MIT's Media Lab.  For each country whose data we scrape, we are collecting data on who they import and export from, and what products they import and export.
@@ -89,7 +94,7 @@ def write_data_to_files():
 
 def load_country_product_data(year, country):
     """
-    This function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and loads an array of the products imported and exported by a given country for a given year.
+    This function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and returns an array of the products imported and exported by a given country for a given year.
     """
     
     f = open('data/prod/' + country + '/' + str(year) + '.txt', 'rU')
@@ -126,11 +131,14 @@ def get_product_breakdown(year, country):
         total_imports += float(product_array[i][2])
     product_mix_array = []
     for i in range(len(product_array)):
-        temp = []
-        temp.append(product_array[i][0])
-        temp.append(float(product_array[i][1])/float(total_exports)*float(100))
-        temp.append(float(product_array[i][2])/float(total_imports)*float(100))
-        product_mix_array.append(temp)
+        if total_exports != 0 and total_imports != 0:
+            temp = []
+            temp.append(product_array[i][0])
+            temp.append(float(product_array[i][1])/float(total_exports)*float(100))
+            temp.append(float(product_array[i][2])/float(total_imports)*float(100))
+            product_mix_array.append(temp)
+        else:
+            print country
     return product_mix_array
 
 def get_partner_breakdown(year, country):
@@ -146,11 +154,14 @@ def get_partner_breakdown(year, country):
         total_imports += float(partner_array[i][2])
     product_mix_array = []
     for i in range(len(partner_array)):
-        temp = []
-        temp.append(partner_array[i][0])
-        temp.append(float(partner_array[i][1])/float(total_exports)*float(100))
-        temp.append(float(partner_array[i][2])/float(total_imports)*float(100))
-        partner_array.append(temp)
+        if total_exports != 0 and total_imports != 0:
+            temp = []
+            temp.append(partner_array[i][0])
+            temp.append(float(partner_array[i][1])/float(total_exports)*float(100))
+            temp.append(float(partner_array[i][2])/float(total_imports)*float(100))
+            partner_array.append(temp)
+        else:
+            print country
     return partner_array
 
 def categorize_products(year, country):
@@ -192,3 +203,83 @@ def categorize_partners(year, country):
         else:
             partner_import_mix_dict[dest_id[0:2]] = float(partner_mix_array[i][2])
     return partner_export_mix_dict, partner_import_mix_dict
+
+def calc_export_product_variance(year, country):
+    breakdown = categorize_products(year, country)[0].values()
+    for i in range(len(breakdown)):
+        breakdown[i] = round(breakdown[i], 2)
+    breakdown = array(breakdown)
+    return numpy.var(breakdown)
+
+def calc_import_product_variance(year, country):
+    breakdown = categorize_products(year, country)[1].values()
+    for i in range(len(breakdown)):
+        breakdown[i] = round(breakdown[i], 2)
+    breakdown = array(breakdown)
+    return numpy.var(breakdown)
+
+def calc_export_partner_variance(year, country):
+    breakdown = categorize_partners(year, country)[0].values()
+    for i in range(len(breakdown)):
+        breakdown[i] = round(breakdown[i], 2)
+    breakdown = array(breakdown)
+    return numpy.var(breakdown)
+
+def calc_import_partner_variance(year, country):
+    breakdown = categorize_partners(year, country)[1].values()
+    for i in range(len(breakdown)):
+        breakdown[i] = round(breakdown[i], 2)
+    breakdown = array(breakdown)
+    return numpy.var(breakdown)
+
+def create_export_product_data_frames():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_export_product_variance(year, country))
+        values_arr.append(year_arr)
+    values_arr = array(values_arr)
+    values_frame = DataFrame(values_arr, index=years, columns = countries)
+    return values_frame
+
+def create_import_product_data_frames():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_import_product_variance(year, country))
+        values_arr.append(year_arr)
+    values_arr = array(values_arr)
+    values_frame = DataFrame(values_arr, index=years, columns = countries)
+    return values_frame
+
+def create_export_partner_data_frames():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_export_partner_variance(year, country))
+        values_arr.append(year_arr)
+    values_arr = array(values_arr)
+    values_frame = DataFrame(values_arr, index=years, columns = countries)
+    return values_frame
+
+def create_import_partner_data_frames():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_import_partner_variance(year, country))
+        values_arr.append(year_arr)
+    values_arr = array(values_arr)
+    values_frame = DataFrame(values_arr, index=years, columns = countries)
+    return values_frame
