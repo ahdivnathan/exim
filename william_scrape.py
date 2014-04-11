@@ -31,8 +31,8 @@ def load_all_countries():
     Loading the exchange rates for all countries into a DataFrame (row = yr, col = country code)
     """
     
-    country_dict = load_country_dict()
-    country_tmp = ['afg', 'fra', 'gbr', 'chn', 'jpn', 'deu', 'dnk']     #country_tmp will be the full list of country code.
+    country_tmp = load_country_dict()
+    #country_tmp will be the full list of country code.
     tmp = []
     pure_exc = []
     for country in country_tmp:
