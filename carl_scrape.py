@@ -28,9 +28,7 @@ def get_data(filename):
     joy = joy.transpose()
     return joy
     
-
-fl = len(files)
-flr = range(fl)
+#creating the dictionary of dataframes
 dfdict = {}
 names = []
 dflist = []
