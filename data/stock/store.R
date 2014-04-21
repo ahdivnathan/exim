@@ -1,4 +1,4 @@
-allFiles = list.files(path = "./done")
+allFiles = list.files(path = "done")
 countries = c()
 new = TRUE
 for (i in 1:length(allFiles)) {

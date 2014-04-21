@@ -91,4 +91,4 @@ def getIndexPrices(filename):
 
 	csvfile.close()
 
-getIndexPrices('country indexes.csv')
+getIndexPrices('country_indexes.csv')
