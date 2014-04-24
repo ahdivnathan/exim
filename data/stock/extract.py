@@ -1,11 +1,24 @@
 import csv
 import ystockquote
 
+# We first define the functions that we will call, depending where the data
+# will be available. These are namely Google finance, manually downloaded csv
+# files, or Yahoo finance.
+
 def googleExtract(country):
+
+# We will define this function if we do not have sufficient number of
+# countries/amount of data, since this requires text-scrapping.
+
 	pass
 
 
 def csvExtract(filename, country):
+
+# This function takes a previously downloaded csv file on the historical daily
+# prices, and determine the average price within each year, storing these
+# averages into another csv file in a separate folder.
+
 	rawdata = []
 	filepath = 'manual/' + filename
 	file2 = open(filepath, 'rU')
@@ -41,6 +54,12 @@ def csvExtract(filename, country):
 	file1.close()
 
 def yahooExtract(ticker, country):
+
+# This function uses the built-in python library 'ystockquote', which inquires
+# historical prices and return them as dictionaries. We then determine the
+# average prices within each year, storing these averages into a csv file in a
+# separate folder.
+
 	rawdata = ystockquote.get_historical_prices(ticker, '1995-01-01', '2011-12-31')
 
 	prices = {}
@@ -62,6 +81,10 @@ def yahooExtract(ticker, country):
 	file1.close()
 
 def getIndexPrices(filename):
+
+# Now that we have defined all functions required, we run through a previously
+# defined csv file that refers each country to its stock index data source. We
+# also use the standard 3-letter country codes when making new csv files.
 
 	indexes = {}
 
@@ -91,4 +114,4 @@ def getIndexPrices(filename):
 
 	csvfile.close()
 
-getIndexPrices('country_indexes.csv')
+getIndexPrices('country indexes.csv')
