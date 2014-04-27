@@ -75,36 +75,33 @@ for (i in 1:length(exchangeFiles)) {
   exchangeCountries[i] = substring(exchangeFiles[i], 1, 3)
   exchangeFilePath = paste("./data/exchange_rate/", exchangeFiles[i], sep="")
   exchangeRawData = read.csv(exchangeFilePath, header = FALSE)
-  exchangeRawData = exchangeRawData[1:2]
-  exchangeRawData = exchangeRawData[c(4:20),]
-  
-  
-  
-  
-  
-  
-  
-  exchangeCountries[i] = substring(exchangeFiles[i], 1, 3)
-  exchangeFilePath = paste("./data/exchange_rate/", exchangeFiles[i], sep="")
-  exchangeRawData = read.csv(exchangeFilePath, header = FALSE)
-  exchangeStartYear = exchangeRawData[1][1,]
-  if (exchangeStartYear != 1995) {
-    exchangeDummyYears = 1995:(exchangeStartYear-1)
-    V2 = rep(NaN, length(exchangeDummyYears))
-    exchangeDummyData = data.frame(V2)
-    exchangePrices = rbind(dummyData, exchangeRawData[2])
+  exchangeRawData = exchangeRawData[-1,]
+  exchangeRawData = exchangeRawData[-1,]
+  exchangeRawData = exchangeRawData[-1,]
+  exchangeRawData = exchangeRawData[-dim(exchangeRawData)[1],]
+  exchangeRawData = exchangeRawData[-dim(exchangeRawData)[1],]
+  exchangeRawData = exchangeRawData[-dim(exchangeRawData)[1],]
+  exchangeRawData = exchangeRawData[c(dim(exchangeRawData)[1]:1),]
+  exchangeRawData = exchangeRawData[2]
+  if (dim(exchangeRawData)[1]<17) {
+    dummyYears = 1:(17-dim(exchangeRawData)[1])
+    V2 = rep(NaN, length(dummyYears))
+    dummyData = data.frame(V2)
+    exchangePrices = rbind(dummyData, exchangeRawData)
   }
-  if (new == TRUE) {
-    exchangeRates = exchangePrices
-    new = FALSE
+  else {
+    exchangePrices = exchangeRawData
+  }
+  if (exchangeNew == TRUE) {
+    exchanges = exchangePrices
+    exchangeNew = FALSE
   }
   else {
     exchanges = cbind(exchanges, exchangePrices)
   }
 }
 
-exchangeYears = 1995:2011
-rownames(exchanges) = exchangeYears
+years = 1995:2011
+rownames(exchanges) = years
 colnames(exchanges) = exchangeCountries
 
-print(exchanges)
