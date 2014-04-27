@@ -81,7 +81,15 @@ def write_data_to_files():
             writer.writerows(to_write)
             f.close()
             
+"""
+No we will define the functions that we will call to scrape the stock index data for various countries.  Because not all countries have established indexes, we will only be gathering this data for a select list of countries.
+"""
+            
 def csvExtract(filename, country):
+    """
+    This function takes a previously downloaded csv file of the historical daily prices for a stock index, and determines the average price for each year, storing the averages in another csv file with the designated country's name.
+    """
+    
 	rawdata = []
 	filepath = 'data/stock/manual/' + filename
 	file2 = open(filepath, 'rU')
@@ -117,6 +125,10 @@ def csvExtract(filename, country):
 	file1.close()
 
 def yahooExtract(ticker, country):
+    """
+    This function uses the python library 'ystockquote', which requests historical prices and returns them as dictionaries.  We then determine the average prices for each year, storing these averages in a csv file with the given country's name.
+    """
+    
 	rawdata = ystockquote.get_historical_prices(ticker, '1995-01-01', '2011-12-31')
 
 	prices = {}
@@ -138,6 +150,9 @@ def yahooExtract(ticker, country):
 	file1.close()
     
 def getIndexPrices():
+    """
+    Now that we have defined all of the functions required, we run through a previously defined csv file that links each country to its stock index data source.  We also use the standard 3-letter country codes when making new csv files.
+    """
     
     filename = 'data/stock/country_indexes.csv'
     

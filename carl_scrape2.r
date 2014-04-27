@@ -1,5 +1,5 @@
 #chose the file path
-path = "C:/Users/Carl/src/exim/data/macros/"
+path = "./data/macros/"
 files = list.files(path)
 
 #this function returns the formatted dataframe from the csv
