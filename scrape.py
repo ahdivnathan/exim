@@ -90,12 +90,12 @@ def csvExtract(filename, country):
     This function takes a previously downloaded csv file of the historical daily prices for a stock index, and determines the average price for each year, storing the averages in another csv file with the designated country's name.
     """
     
-	rawdata = []
-	filepath = 'data/stock/manual/' + filename
-	file2 = open(filepath, 'rU')
-	reader2 = csv.reader(file2)
-	for row in reader2:
-		rawdata.append(row)
+    rawdata = []
+    filepath = 'data/stock/manual/' + filename
+    file2 = open(filepath, 'rU')
+    reader2 = csv.reader(file2)
+    for row in reader2:
+        rawdata.append(row)
 
 	currentYear = rawdata[1][0][-2:]
 	prices = []
@@ -129,13 +129,13 @@ def yahooExtract(ticker, country):
     This function uses the python library 'ystockquote', which requests historical prices and returns them as dictionaries.  We then determine the average prices for each year, storing these averages in a csv file with the given country's name.
     """
     
-	rawdata = ystockquote.get_historical_prices(ticker, '1995-01-01', '2011-12-31')
-
-	prices = {}
-	for date in rawdata.keys():
-		if date[0:4] in prices.keys():
-			prices[date[0:4]].append(float(rawdata[date]['Close']))
-		else:
+    rawdata = ystockquote.get_historical_prices(ticker, '1995-01-01', '2011-12-31')
+    
+    prices = {}
+    for date in rawdata.keys():
+        if date[0:4] in prices.keys():
+            prices[date[0:4]].append(float(rawdata[date]['Close']))
+        else:
 			prices[date[0:4]] = []
 			prices[date[0:4]].append(float(rawdata[date]['Close']))
 
@@ -178,3 +178,216 @@ def getIndexPrices():
         else:
             yahooExtract(indexes[country][1], countryCode)
     csvfile.close()
+    
+def load_country_product_data(year, country):
+    """
+    This function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and returns an array of the products imported and exported by a given country for a given year.
+    """
+    
+    f = open('data/prod/' + country + '/' + str(year) + '.txt', 'rU')
+    reader = csv.reader(f)
+    product_array = []
+    for row in reader:
+        product_array.append(row)
+    f.close()
+    return product_array
+
+def load_country_partner_data(year, country):
+    """
+    This function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and loads an array of the import and export partners for a given country for a given year.
+    """
+    
+    f = open('data/part/' + country + '/' + str(year) + '.txt', 'rU')
+    reader = csv.reader(f)
+    partner_array = []
+    for row in reader:
+        partner_array.append(row)
+    f.close()
+    return partner_array
+
+def get_product_breakdown(year, country):
+    """
+    This function breaks down each product to give us the percentage mix of a given country's imports and exports for a given year.
+    """
+    
+    product_array = load_country_product_data(year, country)
+    total_exports = 0
+    total_imports = 0
+    for i in range(len(product_array)):
+        total_exports += float(product_array[i][1])
+        total_imports += float(product_array[i][2])
+    product_mix_array = []
+    for i in range(len(product_array)):
+        if total_exports != 0 and total_imports != 0:
+            temp = []
+            temp.append(product_array[i][0])
+            temp.append(float(product_array[i][1])/float(total_exports)*float(100))
+            temp.append(float(product_array[i][2])/float(total_imports)*float(100))
+            product_mix_array.append(temp)
+        else:
+            print country
+    return product_mix_array
+
+def get_partner_breakdown(year, country):
+    """
+    This function breaks down each partner to give us the percentage mix of a given country's imports and exports for a given year.
+    """
+    
+    partner_array = load_country_partner_data(year, country)
+    total_exports = 0
+    total_imports = 0
+    partner_return = []
+    for i in range(len(partner_array)):
+        total_exports += float(partner_array[i][1])
+        total_imports += float(partner_array[i][2])
+    product_mix_array = []
+    for i in range(len(partner_array)):
+        if total_exports != 0 and total_imports != 0:
+            temp = []
+            temp.append(partner_array[i][0])
+            temp.append(float(partner_array[i][1])/float(total_exports)*float(100))
+            temp.append(float(partner_array[i][2])/float(total_imports)*float(100))
+            partner_return.append(temp)
+        else:
+            print country
+    return partner_return
+
+def categorize_products(year, country):
+    """
+    This function breaks down the product mix into the 21 categories provided in order to find the diversity of trade.
+    """
+    
+    product_mix_array = get_product_breakdown(year, country)
+    product_export_mix_dict = {}
+    product_import_mix_dict = {}
+    for i in range(len(product_mix_array)):
+        hs4_id = product_mix_array[i][0]
+        if hs4_id[0:2] in product_export_mix_dict.keys():
+            product_export_mix_dict[hs4_id[0:2]] += float(product_mix_array[i][1])
+        else:
+            product_export_mix_dict[hs4_id[0:2]] = float(product_mix_array[i][1])
+        if hs4_id[0:2] in product_import_mix_dict.keys():
+            product_import_mix_dict[hs4_id[0:2]] += float(product_mix_array[i][2])
+        else:
+            product_import_mix_dict[hs4_id[0:2]] = float(product_mix_array[i][2])
+    return product_export_mix_dict, product_import_mix_dict
+
+def categorize_partners(year, country):
+    """
+    This function breaks down the partner mix into the 6 main continents provided in order to find the diversity of trade.
+    """
+    
+    partner_mix_array = get_partner_breakdown(year, country)
+    partner_export_mix_dict = {}
+    partner_import_mix_dict = {}
+    for i in range(len(partner_mix_array)):
+        dest_id = partner_mix_array[i][0]
+        if dest_id[0:2] in partner_export_mix_dict.keys():
+            partner_export_mix_dict[dest_id[0:2]] += float(partner_mix_array[i][1])
+        else:
+            partner_export_mix_dict[dest_id[0:2]] = float(partner_mix_array[i][1])
+        if dest_id[0:2] in partner_import_mix_dict.keys():
+            partner_import_mix_dict[dest_id[0:2]] += float(partner_mix_array[i][2])
+        else:
+            partner_import_mix_dict[dest_id[0:2]] = float(partner_mix_array[i][2])
+    return partner_export_mix_dict, partner_import_mix_dict
+
+def calc_export_product_variance(year, country):
+    breakdown = categorize_products(year, country)[0].values()
+    for i in range(len(breakdown)):
+        breakdown[i] = round(breakdown[i], 2)
+    breakdown = array(breakdown)
+    return numpy.var(breakdown)
+
+def calc_import_product_variance(year, country):
+    breakdown = categorize_products(year, country)[1].values()
+    for i in range(len(breakdown)):
+        breakdown[i] = round(breakdown[i], 2)
+    breakdown = array(breakdown)
+    return numpy.var(breakdown)
+
+def calc_export_partner_variance(year, country):
+    breakdown = categorize_partners(year, country)[0].values()
+    for i in range(len(breakdown)):
+        breakdown[i] = round(breakdown[i], 2)
+    breakdown = array(breakdown)
+    return numpy.var(breakdown)
+
+def calc_import_partner_variance(year, country):
+    breakdown = categorize_partners(year, country)[1].values()
+    for i in range(len(breakdown)):
+        breakdown[i] = round(breakdown[i], 2)
+    breakdown = array(breakdown)
+    return numpy.var(breakdown)
+
+def create_export_product_csv():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    countries_proxy = []
+    for country in countries:
+        countries_proxy.append(country)
+    values_arr.append(countries_proxy)
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_export_product_variance(year, country))
+        values_arr.append(year_arr)
+    f = open('data/trade/export_prod.csv', 'wb')
+    writer = csv.writer(f)
+    writer.writerows(values_arr)
+    f.close()
+    
+def create_import_product_csv():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    countries_proxy = []
+    for country in countries:
+        countries_proxy.append(country)
+    values_arr.append(countries_proxy)
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_import_product_variance(year, country))
+        values_arr.append(year_arr)
+    f = open('data/trade/import_prod.csv', 'wb')
+    writer = csv.writer(f)
+    writer.writerows(values_arr)
+    f.close()
+    
+def create_export_partner_csv():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    countries_proxy = []
+    for country in countries:
+        countries_proxy.append(country)
+    values_arr.append(countries_proxy)
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_export_partner_variance(year, country))
+        values_arr.append(year_arr)
+    f = open('data/trade/export_part.csv', 'wb')
+    writer = csv.writer(f)
+    writer.writerows(values_arr)
+    f.close()
+    
+def create_import_partner_csv():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    countries_proxy = []
+    for country in countries:
+        countries_proxy.append(country)
+    values_arr.append(countries_proxy)
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_import_partner_variance(year, country))
+        values_arr.append(year_arr)
+    f = open('data/trade/import_part.csv', 'wb')
+    writer = csv.writer(f)
+    writer.writerows(values_arr)
+    f.close()

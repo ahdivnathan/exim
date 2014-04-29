@@ -14,6 +14,9 @@ for (i in 1:length(indexFiles)) {
     dummyData = data.frame(V2)
     prices = rbind(dummyData, rawData[2])
   }
+  else {
+    prices = rawData[2]
+  }
   if (new == TRUE) {
     indexes = prices
     new = FALSE
@@ -34,7 +37,13 @@ for (i in colnames(indexes)) {
   while (as.character(indexes[i][as.character(k),]) == "NaN") {
     k = k + 1
   }
+  
   base = indexes[i][as.character(k),]
+  indexes[i][as.character(k),] = NaN
+  for (j in (k+1):2011) {
+    indexes[i][as.character(j),] = indexes[i][as.character(j),]/base*100
+  }
+  
   indexes[i][as.character(k),] = 100
   for (j in (k+1):2011) {
     indexes[i][as.character(j),] = indexes[i][as.character(j),]/base*100
@@ -105,3 +114,17 @@ years = 1995:2011
 rownames(exchanges) = years
 colnames(exchanges) = exchangeCountries
 
+tradePath = "./data/trade/"
+tradeFiles = list.files(tradePath)
+
+gatherTradeData = function(filename) {
+  trade = read.csv(paste(tradePath, filename, sep=""))
+  years = 1995:2011
+  rownames(trade) = years
+  return(trade)
+}
+
+exportPartnerVariances = gatherTradeData(tradeFiles[1])
+exportProductVariances = gatherTradeData(tradeFiles[2])
+importPartnerVariances = gatherTradeData(tradeFiles[3])
+importProductVariances = gatherTradeData(tradeFiles[4])
