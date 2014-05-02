@@ -140,6 +140,7 @@ gatherExchangeData = function() {
   years = 1995:2011
   rownames(exchanges) = years
   colnames(exchanges) = exchangeCountries
+  return(exchanges)
 }
 
 # Now we will gather the trade data that we have stored in the csv files.  Each of the
