@@ -320,6 +320,15 @@ def calc_import_partner_variance(year, country):
     breakdown = array(breakdown)
     return numpy.var(breakdown)
 
+def calc_trade_index(year, country):
+    export_product_variance = calc_export_product_variance(year, country)
+    import_product_variance = calc_import_product_variance(year, country)
+    export_partner_variance = calc_export_partner_variance(year, country)
+    import_partner_variance = calc_import_partner_variance(year, country)
+    variances = array([export_product_variance, import_product_variance, export_partner_variance, import_partner_variance])
+    index = numpy.mean(variances)
+    return index
+
 def create_export_product_csv():
     years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
     countries = load_country_dict().keys()
@@ -388,6 +397,24 @@ def create_import_partner_csv():
             year_arr.append(calc_import_partner_variance(year, country))
         values_arr.append(year_arr)
     f = open('data/trade/import_part.csv', 'wb')
+    writer = csv.writer(f)
+    writer.writerows(values_arr)
+    f.close()
+    
+def create_trade_index_csv():
+    years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011']
+    countries = load_country_dict().keys()
+    values_arr = []
+    countries_proxy = []
+    for country in countries:
+        countries_proxy.append(country)
+    values_arr.append(countries_proxy)
+    for year in years:
+        year_arr = []
+        for country in countries:
+            year_arr.append(calc_trade_index(year, country))
+        values_arr.append(year_arr)
+    f = open('data/trade/trade_index.csv', 'wb')
     writer = csv.writer(f)
     writer.writerows(values_arr)
     f.close()

@@ -11,7 +11,7 @@ gatherIndexData = function() {
   indexFiles = list.files(path = "./data/stock/done")
   indexCountries = c()
   new = TRUE
-  for (i in 1:length(indexfiles)) {
+  for (i in 1:length(indexFiles)) {
     indexCountries[i] = substring(indexFiles[i], 1, 3)
     filePath = paste("./data/stock/done/", indexFiles[i], sep="")
     rawData = read.csv(filePath, header=FALSE)
@@ -57,9 +57,10 @@ gatherIndexData = function() {
       base = temp
     }
   }
+  return(indexes)
 }
 
-# No we will pull the macroeconomic indicator data from the csv files we have gathered
+# Now we will pull the macroeconomic indicator data from the csv files we have gathered
 # from the World Bank Macroeconomic Indicators database.  The "gatherMacroData" function
 # fits all of our macroeconomic indicators because the data was downloaded in a
 # standardized format.  We will be making a function for each indicator so that we can
@@ -164,4 +165,7 @@ getImportPartnerVariances = function() {
 }
 getImportProductVariances = function() {
   return(gatherTradeData("./data/trade/import_prod.csv"))
+}
+getTradeIndex = function() {
+  return(gatherTradeData("./data/trade/trade_index.csv"))
 }
