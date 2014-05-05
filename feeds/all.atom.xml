@@ -4952,7 +4952,7 @@ g0mABEiABEggfgQo6PFjyZhIgARIgARIIGkEKOhJQ88HkwAJkAAJkED8CFDQ48eSMZEACZAACZBA
 
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;As we can see the graph above highlights interesting trends in countries' exchange rates. In cluster 2 (green line), we have many countries from Sub-Saharan Africa who have had a tumultuous history of economic development. Before 2001, we see massive inflation, with exchange rates increasing by more than 200 points from 1995 to 2001. In the early 2000s, Sub-Saharan Africa experienced an economic turnaround, which was mirrored by the more than 200-point decrease in their exchange rates with the US Dollar from 2001 to 2011. &lt;br /&gt;&lt;br /&gt; We also see that&lt;/p&gt;
+&lt;p&gt;As we can see the graph above highlights interesting trends in countries' exchange rates. In cluster 2 (green line), we have many countries from Sub-Saharan Africa who have had a tumultuous history of economic development. Before 2001, we see massive inflation, with exchange rates increasing by more than 200 points from 1995 to 2001. In the early 2000s, Sub-Saharan Africa experienced an economic turnaround, which was mirrored by the more than 200-point decrease in their exchange rates with the US Dollar from 2001 to 2011. &lt;br /&gt;&lt;br /&gt; We also see that the countries in cluster 4 (cyan line) have had relatively steady inflation over the entire observation period. This cluster includes countries with a wide variety of economic situations, from quickly-growing economies like India to extremely insulated countries like North Korea. &lt;br /&gt;&lt;br /&gt; Overall, we do see that there is a relationship between exchange rates and economic development patterns.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="References"&gt;References&lt;a class="anchor-link" href="#References"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
@@ -4983,16 +4983,6 @@ pdflatex NB4_report.tex&lt;/code&gt;&lt;/pre&gt;
 &lt;/ul&gt;
 &lt;p&gt;Be sure to include an introduction section motivating your visualizations, with a description of the substantive context and why it is interesting.&lt;/p&gt;
 &lt;p&gt;Cite the source of the data and any other references that you used in carrying out your project.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="team-members-responsible-for-this-notebook"&gt;Team members responsible for this notebook:&lt;/h2&gt;
-&lt;p&gt;List the team members contributing to this notebook, along with their responsabilities:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;team member 1 &lt;strong&gt;name&lt;/strong&gt;: team member 1 &lt;strong&gt;responsabilities&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;team member 2 &lt;strong&gt;name&lt;/strong&gt;: team member 2 &lt;strong&gt;responsabilities&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;etc.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;I advise you to work at least in pairs for each project notebook, as you did for the homework assignments. Of course, all team members may participate to each notebook.&lt;/p&gt;
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Data Analysis</title><link href="http://ahdivnathan.github.io/exim/nb3.html" rel="alternate"></link><updated>2014-03-03T00:00:00-08:00</updated><author><name>Benoit Dherin</name></author><id>tag:ahdivnathan.github.io,2014-03-03:exim/nb3.html</id><summary type="html">&lt;p&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;In this notebook, you'll perform the actual analysis of the data stored in the directory&lt;/p&gt;
