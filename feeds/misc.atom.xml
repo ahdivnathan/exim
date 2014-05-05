@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>World Trade Project</title><link href="http://ahdivnathan.github.io/exim/" rel="alternate"></link><link href="http://ahdivnathan.github.io/exim/feeds/misc.atom.xml" rel="self"></link><id>http://ahdivnathan.github.io/exim/</id><updated>2014-03-04T00:00:00-08:00</updated><entry><title>Project Report</title><link href="http://ahdivnathan.github.io/exim/nb4.html" rel="alternate"></link><updated>2014-03-04T00:00:00-08:00</updated><author><name>Benoit Dherin</name></author><id>tag:ahdivnathan.github.io,2014-03-04:exim/nb4.html</id><summary type="html">&lt;p&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Team-members-responsible-for-this-notebook:"&gt;Team members responsible for this notebook:&lt;a class="anchor-link" href="#Team-members-responsible-for-this-notebook:"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;ul&gt;
+&lt;li&gt;Team member 1: &lt;strong&gt;William Yu&lt;/strong&gt; - contributed markdown&lt;/li&gt;
+&lt;li&gt;Team member 2: &lt;strong&gt;Ahdiv Nathan&lt;/strong&gt; - contributed markdown&lt;/li&gt;
+&lt;li&gt;Team member 3: &lt;strong&gt;Winarto Anlin&lt;/strong&gt; - contributed markdown&lt;/li&gt;
+&lt;li&gt;Team member 4: &lt;strong&gt;Carl Moos&lt;/strong&gt; - contributed markdown&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Problem"&gt;Problem&lt;a class="anchor-link" href="#Problem"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;International trade policy and its consequences have long been a contentious issue in economics. After World War II, industrialized nations began a reversal of the previously protectionist era of trade policy which expanded to developing countries through the following decades. By the 1990's increasingly liberal global trade policy had been established including Asia, South America, and Eastern Europe (to a lesser extent Africa and the Middle East). However, the effects of this liberalization have been mixed and at times underperformed expectations. Of the many, one important consequence of trade liberalization is trade diversity (of international trade partners and of products).&lt;sup&gt;1&lt;/sup&gt; With our project we attempt to assess the influence of this diversity on macroeconomic performance in the last 18 years.&lt;/p&gt;
+&lt;p&gt;To develop a singular metric of trade diversity, we constructed a Trade Diversity Index (TDI). We calculated the variances of trade concentration for each nation's products and international partners across both imports and exports respectively. The average of these four variances is the country's TDI value. As a proxy for macroeconomic performance we used stock indices, exchange rates, and GDP growth among others. We utilized many sources in order to collect such a variety and depth of data including the BACI International Trade Database, the Center for Economic Complexity, the World Bank, and Yahoo Finance.&lt;/p&gt;
+&lt;p&gt;The time-lag between trade diversity changes and a measurable economic result can be a confounding factor in these analysis. To account for this we perform both a matched-year regression across our variables of interest as well as a lagged-year regression comparing the TDI with economic indicators &lt;strong&gt;two&lt;/strong&gt; years following the TDI date.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Difficulties-with-Data"&gt;Difficulties with Data&lt;a class="anchor-link" href="#Difficulties-with-Data"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Performing a global economic analysis involving multiple variables requires working with a very large sets of data gathered in different mannners from various sources. This process presents the complication of standardization. Certain macroeconomic indicators are not well tracked in many nations, many international stock indices (particularly of smaller nations) did not seem to retain easily accessible historical data, and finding historical exchange rate data turned out to be far more tedious than expected.( &lt;em&gt;&lt;strong&gt;elaborate&lt;/strong&gt;&lt;/em&gt; )Thus there was potential for incomplete and misrepresentative data. In the end, after many hours scouring sources for more reliable and more robust sets of data, we were able to consolidate a data set of &lt;em&gt;&lt;strong&gt;list some metric of our data&lt;/strong&gt;&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The goal of gathering and cleaning was to store all data in dataframes for later analysis. This process also took significant time in order to ensure complete congruity between dataframe formats that is vital for an accurate regression. Further obscuring this process was the fact each observation for our regressions of TDI data on our macroeconomic indicators had three identifying parameters that had to be perfectly indexed for both data sets: the variable measured, the year, and the country. As such we had to be meticulous with our pre-analysis cleaning and setup of data.&lt;/p&gt;
+&lt;p&gt;Finally, our variables of interest (trade diversity and macroeconomic performance) are results of such an immense group of economic, political, and social factors that ultimately there were sub-trends within our data that needed to be addressed in a more nuanced manner. We used regressions with robust standard errors as well as k-means clustering analysis to attempt to identify and control for these factors.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Main-Challenge"&gt;Main Challenge&lt;a class="anchor-link" href="#Main-Challenge"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Our main challenge as a group was two-fold. First, and as mentioned above, the gathering of this immense data set was tedious, time-consuming, and intricate. Second, and more importantly to the analysis, with such a high-level data set that describes a host of international dynamics, being able to hone in on a meaningful analysis can be difficult. Adjusting for irregularities in datasets, designing regressions between meaningful metrics, and developing the methodolgy behind the Trade Diversification Index were very challenging parts of the project for our group.&lt;/p&gt;
+&lt;p&gt;Our work in adjusting for irregularities in datasets was covered in our challenges with data. The obstacle of regression design was briefly mentioned as well. After exploring existing economic literature and weighing the options of implementing a linear regression versus a implementing a quadratic regression we the best fit for our flexible purposes appeared to be the linear model.&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;Construction of the Trade Diversification Index (TDI) was vital to the rest of our analysis and thus required much effort to ensure a representative index value. We considered using am absolute number of trade partners and products but realized this would bias our results as an larger nations would then naturally tend to have a higher index value. Such potential for omitted variable bias is always an issue and we did our best to create the TDI in a manner to best avoid it. In the end we used the variance method described previously.&lt;/p&gt;
+&lt;p&gt;In sum, in order to explore such a sweeping and broad-reaching hypothesis involving international trade we had to be meticulous and thoughtful about our methodology. Every step of the process involved coordination across diverse data sources and concentration around a unified question. Guaranteeing clarity, relevance, and power of our results required an ardous effort by every member involved. Luckily, we had a great time working together!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="References"&gt;References&lt;a class="anchor-link" href="#References"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;&lt;sup&gt;1 &lt;/sup&gt;The World Bank Poverty Reduction and Economic Management. &amp;quot;Economic Growth in the 1990's&amp;quot; Chapter 5: Trade Liberalization- Why So Much Controversy? Accessed with http://www1.worldbank.org/prem/lessons1990s/chaps/05-Ch05_kl.pdf&lt;/p&gt;
+&lt;p&gt;&lt;sup&gt;2 &lt;/sup&gt;The International Labor Organization. &amp;quot;Trade diversification, income, and growth: what do we know&amp;quot; Accessed with http://www.ilo.org/wcmsp5/groups/public/---ed_emp/documents/presentation/wcm_041814.pdf&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;&lt;em&gt;old stuff and instructions&lt;/em&gt; &lt;strong&gt;delete&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;In this notebook, you'll sumarize your finding for the class presentation.&lt;/p&gt;
 &lt;p&gt;The class presentation will use this notebook in slide mode, as I do during lecture time.&lt;/p&gt;
 &lt;p&gt;You'll need to download the following &lt;a href="https://github.com/fperez/nb-slideshow-template/archive/master.zip"&gt;zip file&lt;/a&gt;, unzip it, and run the following notebook &lt;code&gt;install-support.ipynb&lt;/code&gt; to install the slide capabilities.&lt;/p&gt;
@@ -279,6 +330,25 @@ In&amp;nbsp;[]:
 &lt;/div&gt;
 
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Data Gathering</title><link href="http://ahdivnathan.github.io/exim/nb1.html" rel="alternate"></link><updated>2014-03-01T00:00:00-08:00</updated><author><name>Benoit Dherin</name></author><id>tag:ahdivnathan.github.io,2014-03-01:exim/nb1.html</id><summary type="html">&lt;p&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Team-members-responsible-for-this-notebook:"&gt;Team members responsible for this notebook:&lt;a class="anchor-link" href="#Team-members-responsible-for-this-notebook:"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;ul&gt;
+&lt;li&gt;Team member 1: &lt;strong&gt;William Yu&lt;/strong&gt; - contributed markdown (currencies data)&lt;/li&gt;
+&lt;li&gt;Team member 2: &lt;strong&gt;Ahdiv Nathan&lt;/strong&gt; - contributed markdown (trade data)&lt;/li&gt;
+&lt;li&gt;Team member 3: &lt;strong&gt;Winarto Anlin&lt;/strong&gt; - contributed markdown (stock index data)&lt;/li&gt;
+&lt;li&gt;Team member 4: &lt;strong&gt;Carl Moos&lt;/strong&gt; - contributed markdown (macro-econ indicators data)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h1 id="Data-Gathering"&gt;Data Gathering&lt;a class="anchor-link" href="#Data-Gathering"&gt;&amp;#182;&lt;/a&gt;&lt;/h1&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Our team needs to&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;In this notebook, you'll&lt;/p&gt;
 &lt;ul&gt;
