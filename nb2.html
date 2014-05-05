@@ -1720,7 +1720,7 @@ init_mathjax();
             <meta property="og:type" content="article"/>
             <meta property="og:title" content="Data Cleaning"/>
             <meta property="og:url" content="http://ahdivnathan.github.io/exim/nb2.html"/>
-            <meta property="og:description" content="In this notebook, you'll load the raw data into R or Pandas dataframe from the ./data/raw directory using the functions and classes (written during the data gathering phase) in the ./script directory perform visual exploration on your data variables to detect anomalies, errors, outliers, interesting features etc. clean ..."/>
+            <meta property="og:description" content="In [1]: %load_ext rmagic In [2]: %%R # This file will take the scraped data from our csv files and put it into R Data Frames # for easy analysis. The output of each function will be a Data Frame with years for # rows and countries for columns. Additionally, we will make ..."/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="http://ahdivnathan.github.io/exim/theme/css/bootstrap.min.css" type="text/css"/>
@@ -1815,40 +1815,10 @@ World Trade Project            </a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll</p>
-<ul>
-<li><p><strong>load the raw data into R or Pandas dataframe</strong> from the <code>./data/raw</code> directory using the functions and classes (written during the data gathering phase) in the <code>./script</code> directory</p></li>
-<li><p><strong>perform visual exploration</strong> on your data variables to detect anomalies, errors, outliers, interesting features etc.</p></li>
-<li><p><strong>clean categorical and quantitative variables</strong> (by removing observations and variables with too many missing values, by consolidating categorical variables, by selecting an appropriate subset of variables and observations for later analysis, etc.)</p></li>
-<li><p><strong>save the cleaned data</strong> into csv files in the <code>./data/cleaned</code> directory</p></li>
-<li><p><strong>save interesting graphics</strong> you obtained during visual exploration into the <code>./visualiation</code> directory</p></li>
-</ul>
-</div>
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="team-members-responsible-for-this-notebook">Team members responsible for this notebook:</h2>
-<p>List the team members contributing to this notebook, along with their responsabilities:</p>
-<ul>
-<li>team member 1 <strong>name</strong>: team member 1 <strong>responsabilities</strong></li>
-<li>team member 2 <strong>name</strong>: team member 2 <strong>responsabilities</strong></li>
-<li>etc.</li>
-</ul>
-<p>I advise you to work at least in pairs for each project notebook, as you did for the homework assignments. Of course, all team members may participate to each notebook.</p>
-</div>
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h2>
-</div>
-
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Here I'll load the plant data in xml format into a R data frame using the</p>
-<pre><code>create_df_from_plant_xml(file)</code></pre>
-<p>function contained in the R script</p>
-<pre><code>    ./script/plant_df-R</code></pre>
-</div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[4]:
+In&nbsp;[1]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%</span><span class="k">load_ext</span> <span class="n">rmagic</span>
@@ -1857,189 +1827,195 @@ In&nbsp;[4]:
 </div>
 </div>
 
-<div class="vbox output_wrapper">
-<div class="output vbox">
-
-
-<div class="hbox output_area"><div class="prompt"></div>
-<div class="box-flex1 output_subarea output_stream output_stdout">
-<pre>
-The rmagic extension is already loaded. To reload it, use:
-  %reload_ext rmagic
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To load the function into a R cell, one needs to use the</p>
-<pre><code>source(R_script_file)</code></pre>
-<p>command in R, which works in a similar way as the</p>
-<pre><code>import module</code></pre>
-<p>command in Python:</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[5]:
+In&nbsp;[2]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
-<span class="n">source</span><span class="p">(</span><span class="s">&#39;./script/plant_df-R&#39;</span><span class="p">)</span>
-</pre></div>
+<span class="c"># This file will take the scraped data from our csv files and put it into R Data Frames</span>
+<span class="c"># for easy analysis.  The output of each function will be a Data Frame with years for</span>
+<span class="c"># rows and countries for columns.  Additionally, we will make some basic plots to identify</span>
+<span class="c"># areas of analysis that we should explore more thoroughly.</span>
 
-</div>
-</div>
+<span class="n">gatherIndexData</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c"># This function will gather the stock index data for each of the 25 countries whose</span>
+  <span class="c"># index data we have scraped and placed in csv files.  We will pull the data from</span>
+  <span class="c"># each csv and clean it such that we have relative changes rather than nominal values</span>
+  
+  <span class="n">indexFiles</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;./data/stock/done&quot;</span><span class="p">)</span>
+  <span class="n">indexCountries</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="n">new</span> <span class="o">=</span> <span class="n">TRUE</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">indexFiles</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">indexCountries</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">substring</span><span class="p">(</span><span class="n">indexFiles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">filePath</span> <span class="o">=</span> <span class="n">paste</span><span class="p">(</span><span class="s">&quot;./data/stock/done/&quot;</span><span class="p">,</span> <span class="n">indexFiles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">rawData</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">FALSE</span><span class="p">)</span>
+    <span class="n">startYear</span> <span class="o">=</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">,]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">startYear</span> <span class="o">!=</span> <span class="mi">1995</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">dummyYears</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:(</span><span class="n">startYear</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">V2</span> <span class="o">=</span> <span class="n">rep</span><span class="p">(</span><span class="n">NaN</span><span class="p">,</span> <span class="n">length</span><span class="p">(</span><span class="n">dummyYears</span><span class="p">))</span>
+      <span class="n">dummyData</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">V2</span><span class="p">)</span>
+      <span class="n">prices</span> <span class="o">=</span> <span class="n">rbind</span><span class="p">(</span><span class="n">dummyData</span><span class="p">,</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">prices</span> <span class="o">=</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">indexes</span> <span class="o">=</span> <span class="n">prices</span>
+      <span class="n">new</span> <span class="o">=</span> <span class="n">FALSE</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">indexes</span> <span class="o">=</span> <span class="n">cbind</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  
+  <span class="n">years</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:</span><span class="mi">2011</span>
+  <span class="n">rownames</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">=</span> <span class="n">years</span>
+  <span class="n">colnames</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">=</span> <span class="n">indexCountries</span>
+  
+  <span class="c"># Since the prices are in the countries&#39; respective currencies, we will use annual</span>
+  <span class="c"># returns to measure the performance of the index.  This way, our data will show</span>
+  <span class="c"># only the relative changes as opposed to the noisy nominal values in different</span>
+  <span class="c"># currencies.</span>
+  
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="n">colnames</span><span class="p">(</span><span class="n">indexes</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">1995</span>
+    <span class="k">while</span> <span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),])</span> <span class="o">==</span> <span class="s">&quot;NaN&quot;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="p">}</span>
+    
+    <span class="n">base</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),]</span>
+    <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),]</span> <span class="o">=</span> <span class="n">NaN</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span><span class="mi">2011</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">temp</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span>
+      <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span><span class="o">/</span><span class="n">base</span><span class="o">*</span><span class="mi">100</span>
+      <span class="n">base</span> <span class="o">=</span> <span class="n">temp</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">indexes2</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">indexes2</span><span class="p">)</span>
+<span class="p">}</span>
 
-</div>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, we can create a data frame directly from the XML file using the functin contained in the scrip above.</p>
-<p>If you wish to perform the cleaning using Pandas data frames instead of R data frames, one make the R data frame available to Python cells by using the R magic command:</p>
-<pre><code>%%R -d df_name</code></pre>
-<p>To know more on how to pass variables back and forth between R and Python cells, please have a look at the notebook <a href="http://nbviewer.ipython.org/url/github.com/ipython/ipython/raw/master/examples/notebooks/R%20Magics.ipynb">here</a>.</p>
-</div>
-<div class="cell border-box-sizing code_cell vbox">
-<div class="input hbox">
-<div class="prompt input_prompt">
-In&nbsp;[7]:
-</div>
-<div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span>
+<span class="c"># Now we will pull the macroeconomic indicator data from the csv files we have gathered</span>
+<span class="c"># from the World Bank Macroeconomic Indicators database.  The &quot;gatherMacroData&quot; function</span>
+<span class="c"># fits all of our macroeconomic indicators because the data was downloaded in a</span>
+<span class="c"># standardized format.  We will be making a function for each indicator so that we can</span>
+<span class="c"># import these functions in our analysis script.</span>
 
-<span class="n">library</span><span class="p">(</span><span class="n">XML</span><span class="p">)</span>
+<span class="n">gatherMacroData</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">macro</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
+  <span class="n">macro</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
+  <span class="n">macro</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
+  <span class="n">names</span><span class="p">(</span><span class="n">macro</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2013</span><span class="p">)</span>
+  <span class="n">macro</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
+  <span class="n">macro2</span> <span class="o">=</span> <span class="n">macro</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">colnames</span><span class="p">(</span><span class="n">macro2</span><span class="p">)</span> <span class="o">=</span> <span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">macro3</span> <span class="o">=</span> <span class="n">macro2</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">macro2</span><span class="p">))</span> <span class="o">!=</span> <span class="n">ncol</span><span class="p">(</span><span class="n">macro2</span><span class="p">),]</span>
+  <span class="n">macro4</span> <span class="o">=</span> <span class="nb">apply</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">macro3</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">)</span>
+  <span class="n">macro5</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">macro4</span><span class="p">)</span>
+  <span class="n">colnames</span><span class="p">(</span><span class="n">macro5</span><span class="p">)</span> <span class="o">=</span> <span class="n">tolower</span><span class="p">(</span><span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">,])</span>
+  <span class="n">macro6</span> <span class="o">=</span> <span class="n">macro5</span><span class="p">[,</span><span class="n">colSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">macro5</span><span class="p">))</span> <span class="o">!=</span> <span class="n">nrow</span><span class="p">(</span><span class="n">macro5</span><span class="p">)]</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">macro6</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">create_df_from_plant_xml</span><span class="p">(</span><span class="s">&#39;./data/raw/plant.xml&#39;</span><span class="p">)</span>
-</pre></div>
+<span class="n">getCO2Emissions</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/co2emissions.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getExportsGrowth</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/exportsGSGrowth.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getGDPGrowth</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/gdpGrowth.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getGDSaving</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/gdSaving.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getInfantMortality</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/infantMortality.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getNetMigration</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/netMigration.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getRealInterestRates</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/realInterestRate.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
 
-</div>
-</div>
+<span class="c"># Now we will pull the exchange rate data from the csv files we have gathered from</span>
+<span class="c"># Oanda, an open source ForEx database.</span>
 
-</div>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now let's load our data into a Pandas data frame:</p>
-</div>
-<div class="cell border-box-sizing code_cell vbox">
-<div class="input hbox">
-<div class="prompt input_prompt">
-In&nbsp;[8]:
-</div>
-<div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb"><span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="n">gatherExchangeData</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">exchangePath</span> <span class="o">=</span> <span class="s">&quot;./data/exchange_rate/&quot;</span>
+  <span class="n">exchangeFiles</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">exchangePath</span><span class="p">)</span>
+  
+  <span class="n">exchangeCountries</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="n">exchangeNew</span> <span class="o">=</span> <span class="n">TRUE</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">exchangeFiles</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">exchangeCountries</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">substring</span><span class="p">(</span><span class="n">exchangeFiles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">exchangeFilePath</span> <span class="o">=</span> <span class="n">paste</span><span class="p">(</span><span class="s">&quot;./data/exchange_rate/&quot;</span><span class="p">,</span> <span class="n">exchangeFiles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">exchangeFilePath</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">exchangeRawData</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">exchangeRawData</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">exchangeRawData</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">exchangeRawData</span><span class="p">[</span><span class="o">-</span><span class="n">dim</span><span class="p">(</span><span class="n">exchangeRawData</span><span class="p">)[</span><span class="mi">1</span><span class="p">],]</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">exchangeRawData</span><span class="p">[</span><span class="o">-</span><span class="n">dim</span><span class="p">(</span><span class="n">exchangeRawData</span><span class="p">)[</span><span class="mi">1</span><span class="p">],]</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">exchangeRawData</span><span class="p">[</span><span class="o">-</span><span class="n">dim</span><span class="p">(</span><span class="n">exchangeRawData</span><span class="p">)[</span><span class="mi">1</span><span class="p">],]</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">exchangeRawData</span><span class="p">[</span><span class="n">c</span><span class="p">(</span><span class="n">dim</span><span class="p">(</span><span class="n">exchangeRawData</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span><span class="mi">1</span><span class="p">),]</span>
+    <span class="n">exchangeRawData</span> <span class="o">=</span> <span class="n">exchangeRawData</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">dim</span><span class="p">(</span><span class="n">exchangeRawData</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">17</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">dummyYears</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:(</span><span class="mi">17</span><span class="o">-</span><span class="n">dim</span><span class="p">(</span><span class="n">exchangeRawData</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+      <span class="n">V2</span> <span class="o">=</span> <span class="n">rep</span><span class="p">(</span><span class="n">NaN</span><span class="p">,</span> <span class="n">length</span><span class="p">(</span><span class="n">dummyYears</span><span class="p">))</span>
+      <span class="n">dummyData</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">V2</span><span class="p">)</span>
+      <span class="n">exchangePrices</span> <span class="o">=</span> <span class="n">rbind</span><span class="p">(</span><span class="n">dummyData</span><span class="p">,</span> <span class="n">exchangeRawData</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">exchangePrices</span> <span class="o">=</span> <span class="n">exchangeRawData</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">exchangeNew</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">exchanges</span> <span class="o">=</span> <span class="n">exchangePrices</span>
+      <span class="n">exchangeNew</span> <span class="o">=</span> <span class="n">FALSE</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">exchanges</span> <span class="o">=</span> <span class="n">cbind</span><span class="p">(</span><span class="n">exchanges</span><span class="p">,</span> <span class="n">exchangePrices</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  
+  <span class="n">years</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:</span><span class="mi">2011</span>
+  <span class="n">rownames</span><span class="p">(</span><span class="n">exchanges</span><span class="p">)</span> <span class="o">=</span> <span class="n">years</span>
+  <span class="n">colnames</span><span class="p">(</span><span class="n">exchanges</span><span class="p">)</span> <span class="o">=</span> <span class="n">exchangeCountries</span>
+  
+  <span class="k">return</span><span class="p">(</span><span class="n">exchanges</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
+<span class="c"># Now we will gather the trade data that we have stored in the csv files.  Each of the</span>
+<span class="c"># csv files contains the variance of the particular category for each country in each</span>
+<span class="c"># year.  We will gather the trade data in order to understand how diversity of trade</span>
+<span class="c"># affects countries&#39; economic performance</span>
 
-</div>
-</div>
+<span class="n">gatherTradeData</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">trade</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="n">years</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:</span><span class="mi">2011</span>
+  <span class="n">rownames</span><span class="p">(</span><span class="n">trade</span><span class="p">)</span> <span class="o">=</span> <span class="n">years</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">trade</span><span class="p">)</span>
+<span class="p">}</span>
 
-<div class="vbox output_wrapper">
-<div class="output vbox">
-
-
-<div class="hbox output_area"><div class="prompt output_prompt">
-    Out[8]:</div>
-<div class="box-flex1 output_subarea output_pyout">
-
-<div class="output_html rendered_html">
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>COMMON</th>
-      <th>BOTANICAL</th>
-      <th>ZONE</th>
-      <th>LIGHT</th>
-      <th>PRICE</th>
-      <th>AVAILABILITY</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>           Bloodroot</td>
-      <td> Sanguinaria canadensis</td>
-      <td> 4</td>
-      <td> Mostly Shady</td>
-      <td> $2.44</td>
-      <td> 031599</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>           Columbine</td>
-      <td>   Aquilegia canadensis</td>
-      <td> 3</td>
-      <td> Mostly Shady</td>
-      <td> $9.37</td>
-      <td> 030699</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>      Marsh Marigold</td>
-      <td>       Caltha palustris</td>
-      <td> 4</td>
-      <td> Mostly Sunny</td>
-      <td> $6.81</td>
-      <td> 051799</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>             Cowslip</td>
-      <td>       Caltha palustris</td>
-      <td> 4</td>
-      <td> Mostly Shady</td>
-      <td> $9.90</td>
-      <td> 030699</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td> Dutchman's-Breeches</td>
-      <td>    Dicentra cucullaria</td>
-      <td> 3</td>
-      <td> Mostly Shady</td>
-      <td> $6.44</td>
-      <td> 012099</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The actual data cleaning can now begins!</p>
-</div>
-<div class="cell border-box-sizing code_cell vbox">
-<div class="input hbox">
-<div class="prompt input_prompt">
-In&nbsp;[]:
-</div>
-<div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb">
-</pre></div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell vbox">
-<div class="input hbox">
-<div class="prompt input_prompt">
-In&nbsp;[]:
-</div>
-<div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb">
+<span class="n">getExportPartnerVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/export_part.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getExportProductVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/export_prod.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getImportPartnerVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/import_part.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getImportProductVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/import_prod.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getTradeIndex</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/trade_index.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
 </pre></div>
 
 </div>
