@@ -57,7 +57,8 @@ gatherIndexData = function() {
       base = temp
     }
   }
-  return(indexes)
+  indexes2 = indexes[-1,]
+  return(indexes2)
 }
 
 # Now we will pull the macroeconomic indicator data from the csv files we have gathered
@@ -73,7 +74,14 @@ gatherMacroData = function(filename) {
   macro[2] = NULL
   names(macro)[2:20] = seq(1995, 2013)
   macro = t(macro)
-  return(macro)
+  macro2 = macro[-1,]
+  colnames(macro2) = macro[1,]
+  macro3 = macro2[rowSums(is.na(macro2)) != ncol(macro2),]
+  macro4 = apply(as.matrix(macro3), 1, as.numeric)
+  macro5 = t(macro4)
+  colnames(macro5) = tolower(macro[1,])
+  macro6 = macro5[,colSums(is.na(macro5)) != nrow(macro5)]
+  return(macro6)
 }
 
 getCO2Emissions = function() {
