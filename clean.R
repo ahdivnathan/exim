@@ -148,6 +148,7 @@ gatherExchangeData = function() {
   years = 1995:2011
   rownames(exchanges) = years
   colnames(exchanges) = exchangeCountries
+  
   return(exchanges)
 }
 

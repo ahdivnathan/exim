@@ -60,6 +60,8 @@ prepVectors2 = function(slice) {
   df1 = slice[[1]]
   df2 = slice[[2]]
   df1 = df1[-1,]
+  df1 = df1[-1,]
+  df2 = df2[-nrow(df2),]
   df2 = df2[-nrow(df2),]
   indVector1 = as.vector(as.matrix(df1))
   indVector1 = as.numeric(indVector1)
@@ -100,6 +102,27 @@ prepVectors3 = function(slice) {
   return(list(indVector2, tradeVector2))
 }
 
+prepVectors4 = function(slice) {
+  df1 = slice[[1]]
+  df2 = slice[[2]]
+  df1 = df1[-nrow(df1),]
+  df2 = df2[-1,]
+  indVector1 = as.vector(as.matrix(df1))
+  indVector1 = as.numeric(indVector1)
+  tradeVector = as.vector(as.matrix(df2))
+  indVector2 = c()
+  tradeVector2 = c()
+  for(i in 1:length(indVector1)) {
+    if (is.na(indVector1[i]) | is.na(tradeVector[i])) {
+    }
+    else {
+      indVector2 = append(indVector2, indVector1[i])
+      tradeVector2 = append(tradeVector2, tradeVector[i])
+    }
+  }
+  return(list(indVector2, tradeVector2))
+}
+
 regressVectors = function(vectors) {
   depVariable = vectors[[1]]
   indVariable = vectors[[2]]
@@ -113,8 +136,8 @@ correlateVectors = function(vectors) {
   cor(myMatrix, use="all.obs", method="pearson")
 }
 
-plotVectors = function(vectors) {
-  plot(vectors[[1]], vectors[[2]], main="Scatterplot attempt")
+plotExchange = function(vectors) {
+  plot(vectors[[1]], vectors[[2]], main="Scatterplot attempt", xlab="TDI", ylab="Exchange Rate (Foreign/USD)")
 }
 
 clusterTrade = function() {
