@@ -104,7 +104,7 @@ regressVectors = function(vectors) {
   depVariable = vectors[[1]]
   indVariable = vectors[[2]]
   fit = lm(depVariable ~ indVariable)
-  confint(fit)
+  summary(fit)
 }
 
 correlateVectors = function(vectors) {
