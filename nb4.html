@@ -1611,11 +1611,11 @@ h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anch
 .highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
 .highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
 .highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
-.highlight-ipynb .go { color: #808080 } /* Generic.Output */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
 .highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
 .highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
 .highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.highlight-ipynb .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
 .highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
 .highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
 .highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
@@ -1853,6 +1853,86 @@ World Trade Project            </a>
 <p>Our work in adjusting for irregularities in datasets was covered in our challenges with data. The obstacle of regression design was briefly mentioned as well. After exploring existing economic literature and weighing the options of implementing a linear regression versus a implementing a quadratic regression we the best fit for our flexible purposes appeared to be the linear model.<sup>2</sup></p>
 <p>Construction of the Trade Diversification Index (TDI) was vital to the rest of our analysis and thus required much effort to ensure a representative index value. We considered using am absolute number of trade partners and products but realized this would bias our results as an larger nations would then naturally tend to have a higher index value. Such potential for omitted variable bias is always an issue and we did our best to create the TDI in a manner to best avoid it. In the end we used the variance method described previously.</p>
 <p>In sum, in order to explore such a sweeping and broad-reaching hypothesis involving international trade we had to be meticulous and thoughtful about our methodology. Every step of the process involved coordination across diverse data sources and concentration around a unified question. Guaranteeing clarity, relevance, and power of our results required an ardous effort by every member involved. Luckily, we had a great time working together!</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Presentation-of-Findings">Presentation of Findings<a class="anchor-link" href="#Presentation-of-Findings">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Trade-Diversification-Index">Trade Diversification Index<a class="anchor-link" href="#Trade-Diversification-Index">&#182;</a></h3>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To begin, we created a Trade Diversification Index (TDI) in order to gauge the diversity of trade for a given country in a given year. Our goal in this project was to analyze how a country's TDI affects its macroeconomic performance. The TDI was calculated as follows: <br /> 1. For a particular year, calculate the percentage of a country's products imported from each product category. Call this the &quot;Products Imported&quot; variable. We will look up the product categories using the Harmonized Trade Classification System (HS4). <br /> 2. Calculate the variance of the Products Imported variable. <br /> 3. Complete steps (1) and (2) for products exported, import partners, and export partners to find variance of Products Exported, variance of Import Partners, and variance of Export Partners. Import and Export Partners were classified by continent. <br /> 4. Take the average of the 4 variances to create the TDI. A low TDI therefore implies that the country's trade is well diversified, while a high TDI implies that the country's trade is concentrated in some way that causes it to be poorly diversified.</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Regression-Analysis">Regression Analysis<a class="anchor-link" href="#Regression-Analysis">&#182;</a></h3>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to understand how a country's diversity of trade affects its macroeconomic performance, we regressed TDI on the following variables: <br />1. Exchange Rate <br />2. Stock index returns <br />3. CO2 Emissions <br />4. Exports Growth <br />5. GDP Growth <br />6. Gross Domestic Savings <br />7. Net Migration <br />8. Infant Mortality <br />9. Real Interest Rate <br /> <br />When conducted the regression of TDI on Exchange Rate as follows:</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[25]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&quot;../visualizations/clusterTrade.png&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt"></div>
+<div class="box-flex1 output_subarea output_pyerr">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">IOError</span>                                   Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-25-f392172d9c19&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">      1</span> <span class="ansigreen">from</span> IPython<span class="ansiblue">.</span>core<span class="ansiblue">.</span>display <span class="ansigreen">import</span> Image<span class="ansiblue"></span>
+<span class="ansigreen">----&gt; 2</span><span class="ansired"> </span>Image<span class="ansiblue">(</span>filename<span class="ansiblue">=</span><span class="ansiblue">&quot;../visualizations/clusterTrade.png&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+
+<span class="ansigreen">/Users/dk/anaconda/python.app/Contents/lib/python2.7/site-packages/IPython/core/display.pyc</span> in <span class="ansicyan">__init__</span><span class="ansiblue">(self, data, url, filename, format, embed, width, height, retina)</span>
+<span class="ansigreen">    599</span>         self<span class="ansiblue">.</span>height <span class="ansiblue">=</span> height<span class="ansiblue"></span>
+<span class="ansigreen">    600</span>         self<span class="ansiblue">.</span>retina <span class="ansiblue">=</span> retina<span class="ansiblue"></span>
+<span class="ansigreen">--&gt; 601</span><span class="ansired">         </span>super<span class="ansiblue">(</span>Image<span class="ansiblue">,</span> self<span class="ansiblue">)</span><span class="ansiblue">.</span>__init__<span class="ansiblue">(</span>data<span class="ansiblue">=</span>data<span class="ansiblue">,</span> url<span class="ansiblue">=</span>url<span class="ansiblue">,</span> filename<span class="ansiblue">=</span>filename<span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">    602</span> <span class="ansiblue"></span>
+<span class="ansigreen">    603</span>         <span class="ansigreen">if</span> retina<span class="ansiblue">:</span><span class="ansiblue"></span>
+
+<span class="ansigreen">/Users/dk/anaconda/python.app/Contents/lib/python2.7/site-packages/IPython/core/display.pyc</span> in <span class="ansicyan">__init__</span><span class="ansiblue">(self, data, url, filename)</span>
+<span class="ansigreen">    303</span>         self<span class="ansiblue">.</span>filename <span class="ansiblue">=</span> None <span class="ansigreen">if</span> filename <span class="ansigreen">is</span> None <span class="ansigreen">else</span> unicode<span class="ansiblue">(</span>filename<span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">    304</span> <span class="ansiblue"></span>
+<span class="ansigreen">--&gt; 305</span><span class="ansired">         </span>self<span class="ansiblue">.</span>reload<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">    306</span> <span class="ansiblue"></span>
+<span class="ansigreen">    307</span>     <span class="ansigreen">def</span> reload<span class="ansiblue">(</span>self<span class="ansiblue">)</span><span class="ansiblue">:</span><span class="ansiblue"></span>
+
+<span class="ansigreen">/Users/dk/anaconda/python.app/Contents/lib/python2.7/site-packages/IPython/core/display.pyc</span> in <span class="ansicyan">reload</span><span class="ansiblue">(self)</span>
+<span class="ansigreen">    621</span>         <span class="ansiblue">&quot;&quot;&quot;Reload the raw data from file or URL.&quot;&quot;&quot;</span><span class="ansiblue"></span>
+<span class="ansigreen">    622</span>         <span class="ansigreen">if</span> self<span class="ansiblue">.</span>embed<span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">--&gt; 623</span><span class="ansired">             </span>super<span class="ansiblue">(</span>Image<span class="ansiblue">,</span>self<span class="ansiblue">)</span><span class="ansiblue">.</span>reload<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">    624</span>             <span class="ansigreen">if</span> self<span class="ansiblue">.</span>retina<span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">    625</span>                 self<span class="ansiblue">.</span>_retina_shape<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+
+<span class="ansigreen">/Users/dk/anaconda/python.app/Contents/lib/python2.7/site-packages/IPython/core/display.pyc</span> in <span class="ansicyan">reload</span><span class="ansiblue">(self)</span>
+<span class="ansigreen">    308</span>         <span class="ansiblue">&quot;&quot;&quot;Reload the raw data from file or URL.&quot;&quot;&quot;</span><span class="ansiblue"></span>
+<span class="ansigreen">    309</span>         <span class="ansigreen">if</span> self<span class="ansiblue">.</span>filename <span class="ansigreen">is</span> <span class="ansigreen">not</span> None<span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">--&gt; 310</span><span class="ansired">             </span><span class="ansigreen">with</span> open<span class="ansiblue">(</span>self<span class="ansiblue">.</span>filename<span class="ansiblue">,</span> self<span class="ansiblue">.</span>_read_flags<span class="ansiblue">)</span> <span class="ansigreen">as</span> f<span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">    311</span>                 self<span class="ansiblue">.</span>data <span class="ansiblue">=</span> f<span class="ansiblue">.</span>read<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">    312</span>         <span class="ansigreen">elif</span> self<span class="ansiblue">.</span>url <span class="ansigreen">is</span> <span class="ansigreen">not</span> None<span class="ansiblue">:</span><span class="ansiblue"></span>
+
+<span class="ansired">IOError</span>: [Errno 2] No such file or directory: u&apos;../visualizations/clusterTrade.png&apos;</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2>

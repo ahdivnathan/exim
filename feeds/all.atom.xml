@@ -41,6 +41,86 @@
 &lt;p&gt;In sum, in order to explore such a sweeping and broad-reaching hypothesis involving international trade we had to be meticulous and thoughtful about our methodology. Every step of the process involved coordination across diverse data sources and concentration around a unified question. Guaranteeing clarity, relevance, and power of our results required an ardous effort by every member involved. Luckily, we had a great time working together!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Presentation-of-Findings"&gt;Presentation of Findings&lt;a class="anchor-link" href="#Presentation-of-Findings"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Trade-Diversification-Index"&gt;Trade Diversification Index&lt;a class="anchor-link" href="#Trade-Diversification-Index"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;To begin, we created a Trade Diversification Index (TDI) in order to gauge the diversity of trade for a given country in a given year. Our goal in this project was to analyze how a country's TDI affects its macroeconomic performance. The TDI was calculated as follows: &lt;br /&gt; 1. For a particular year, calculate the percentage of a country's products imported from each product category. Call this the &amp;quot;Products Imported&amp;quot; variable. We will look up the product categories using the Harmonized Trade Classification System (HS4). &lt;br /&gt; 2. Calculate the variance of the Products Imported variable. &lt;br /&gt; 3. Complete steps (1) and (2) for products exported, import partners, and export partners to find variance of Products Exported, variance of Import Partners, and variance of Export Partners. Import and Export Partners were classified by continent. &lt;br /&gt; 4. Take the average of the 4 variances to create the TDI. A low TDI therefore implies that the country's trade is well diversified, while a high TDI implies that the country's trade is concentrated in some way that causes it to be poorly diversified.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Regression-Analysis"&gt;Regression Analysis&lt;a class="anchor-link" href="#Regression-Analysis"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;In order to understand how a country's diversity of trade affects its macroeconomic performance, we regressed TDI on the following variables: &lt;br /&gt;1. Exchange Rate &lt;br /&gt;2. Stock index returns &lt;br /&gt;3. CO2 Emissions &lt;br /&gt;4. Exports Growth &lt;br /&gt;5. GDP Growth &lt;br /&gt;6. Gross Domestic Savings &lt;br /&gt;7. Net Migration &lt;br /&gt;8. Infant Mortality &lt;br /&gt;9. Real Interest Rate &lt;br /&gt; &lt;br /&gt;When conducted the regression of TDI on Exchange Rate as follows:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell vbox"&gt;
+&lt;div class="input hbox"&gt;
+&lt;div class="prompt input_prompt"&gt;
+In&amp;nbsp;[25]:
+&lt;/div&gt;
+&lt;div class="input_area box-flex1"&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.core.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;../visualizations/clusterTrade.png&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="vbox output_wrapper"&gt;
+&lt;div class="output vbox"&gt;
+
+
+&lt;div class="hbox output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+&lt;div class="box-flex1 output_subarea output_pyerr"&gt;
+&lt;pre&gt;
+&lt;span class="ansired"&gt;---------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="ansired"&gt;IOError&lt;/span&gt;                                   Traceback (most recent call last)
+&lt;span class="ansigreen"&gt;&amp;lt;ipython-input-25-f392172d9c19&amp;gt;&lt;/span&gt; in &lt;span class="ansicyan"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansiblue"&gt;()&lt;/span&gt;
+&lt;span class="ansigreen"&gt;      1&lt;/span&gt; &lt;span class="ansigreen"&gt;from&lt;/span&gt; IPython&lt;span class="ansiblue"&gt;.&lt;/span&gt;core&lt;span class="ansiblue"&gt;.&lt;/span&gt;display &lt;span class="ansigreen"&gt;import&lt;/span&gt; Image&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;----&amp;gt; 2&lt;/span&gt;&lt;span class="ansired"&gt; &lt;/span&gt;Image&lt;span class="ansiblue"&gt;(&lt;/span&gt;filename&lt;span class="ansiblue"&gt;=&lt;/span&gt;&lt;span class="ansiblue"&gt;&amp;quot;../visualizations/clusterTrade.png&amp;quot;&lt;/span&gt;&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+
+&lt;span class="ansigreen"&gt;/Users/dk/anaconda/python.app/Contents/lib/python2.7/site-packages/IPython/core/display.pyc&lt;/span&gt; in &lt;span class="ansicyan"&gt;__init__&lt;/span&gt;&lt;span class="ansiblue"&gt;(self, data, url, filename, format, embed, width, height, retina)&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    599&lt;/span&gt;         self&lt;span class="ansiblue"&gt;.&lt;/span&gt;height &lt;span class="ansiblue"&gt;=&lt;/span&gt; height&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    600&lt;/span&gt;         self&lt;span class="ansiblue"&gt;.&lt;/span&gt;retina &lt;span class="ansiblue"&gt;=&lt;/span&gt; retina&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;--&amp;gt; 601&lt;/span&gt;&lt;span class="ansired"&gt;         &lt;/span&gt;super&lt;span class="ansiblue"&gt;(&lt;/span&gt;Image&lt;span class="ansiblue"&gt;,&lt;/span&gt; self&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;.&lt;/span&gt;__init__&lt;span class="ansiblue"&gt;(&lt;/span&gt;data&lt;span class="ansiblue"&gt;=&lt;/span&gt;data&lt;span class="ansiblue"&gt;,&lt;/span&gt; url&lt;span class="ansiblue"&gt;=&lt;/span&gt;url&lt;span class="ansiblue"&gt;,&lt;/span&gt; filename&lt;span class="ansiblue"&gt;=&lt;/span&gt;filename&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    602&lt;/span&gt; &lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    603&lt;/span&gt;         &lt;span class="ansigreen"&gt;if&lt;/span&gt; retina&lt;span class="ansiblue"&gt;:&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+
+&lt;span class="ansigreen"&gt;/Users/dk/anaconda/python.app/Contents/lib/python2.7/site-packages/IPython/core/display.pyc&lt;/span&gt; in &lt;span class="ansicyan"&gt;__init__&lt;/span&gt;&lt;span class="ansiblue"&gt;(self, data, url, filename)&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    303&lt;/span&gt;         self&lt;span class="ansiblue"&gt;.&lt;/span&gt;filename &lt;span class="ansiblue"&gt;=&lt;/span&gt; None &lt;span class="ansigreen"&gt;if&lt;/span&gt; filename &lt;span class="ansigreen"&gt;is&lt;/span&gt; None &lt;span class="ansigreen"&gt;else&lt;/span&gt; unicode&lt;span class="ansiblue"&gt;(&lt;/span&gt;filename&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    304&lt;/span&gt; &lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;--&amp;gt; 305&lt;/span&gt;&lt;span class="ansired"&gt;         &lt;/span&gt;self&lt;span class="ansiblue"&gt;.&lt;/span&gt;reload&lt;span class="ansiblue"&gt;(&lt;/span&gt;&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    306&lt;/span&gt; &lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    307&lt;/span&gt;     &lt;span class="ansigreen"&gt;def&lt;/span&gt; reload&lt;span class="ansiblue"&gt;(&lt;/span&gt;self&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;:&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+
+&lt;span class="ansigreen"&gt;/Users/dk/anaconda/python.app/Contents/lib/python2.7/site-packages/IPython/core/display.pyc&lt;/span&gt; in &lt;span class="ansicyan"&gt;reload&lt;/span&gt;&lt;span class="ansiblue"&gt;(self)&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    621&lt;/span&gt;         &lt;span class="ansiblue"&gt;&amp;quot;&amp;quot;&amp;quot;Reload the raw data from file or URL.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    622&lt;/span&gt;         &lt;span class="ansigreen"&gt;if&lt;/span&gt; self&lt;span class="ansiblue"&gt;.&lt;/span&gt;embed&lt;span class="ansiblue"&gt;:&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;--&amp;gt; 623&lt;/span&gt;&lt;span class="ansired"&gt;             &lt;/span&gt;super&lt;span class="ansiblue"&gt;(&lt;/span&gt;Image&lt;span class="ansiblue"&gt;,&lt;/span&gt;self&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;.&lt;/span&gt;reload&lt;span class="ansiblue"&gt;(&lt;/span&gt;&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    624&lt;/span&gt;             &lt;span class="ansigreen"&gt;if&lt;/span&gt; self&lt;span class="ansiblue"&gt;.&lt;/span&gt;retina&lt;span class="ansiblue"&gt;:&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    625&lt;/span&gt;                 self&lt;span class="ansiblue"&gt;.&lt;/span&gt;_retina_shape&lt;span class="ansiblue"&gt;(&lt;/span&gt;&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+
+&lt;span class="ansigreen"&gt;/Users/dk/anaconda/python.app/Contents/lib/python2.7/site-packages/IPython/core/display.pyc&lt;/span&gt; in &lt;span class="ansicyan"&gt;reload&lt;/span&gt;&lt;span class="ansiblue"&gt;(self)&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    308&lt;/span&gt;         &lt;span class="ansiblue"&gt;&amp;quot;&amp;quot;&amp;quot;Reload the raw data from file or URL.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    309&lt;/span&gt;         &lt;span class="ansigreen"&gt;if&lt;/span&gt; self&lt;span class="ansiblue"&gt;.&lt;/span&gt;filename &lt;span class="ansigreen"&gt;is&lt;/span&gt; &lt;span class="ansigreen"&gt;not&lt;/span&gt; None&lt;span class="ansiblue"&gt;:&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;--&amp;gt; 310&lt;/span&gt;&lt;span class="ansired"&gt;             &lt;/span&gt;&lt;span class="ansigreen"&gt;with&lt;/span&gt; open&lt;span class="ansiblue"&gt;(&lt;/span&gt;self&lt;span class="ansiblue"&gt;.&lt;/span&gt;filename&lt;span class="ansiblue"&gt;,&lt;/span&gt; self&lt;span class="ansiblue"&gt;.&lt;/span&gt;_read_flags&lt;span class="ansiblue"&gt;)&lt;/span&gt; &lt;span class="ansigreen"&gt;as&lt;/span&gt; f&lt;span class="ansiblue"&gt;:&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    311&lt;/span&gt;                 self&lt;span class="ansiblue"&gt;.&lt;/span&gt;data &lt;span class="ansiblue"&gt;=&lt;/span&gt; f&lt;span class="ansiblue"&gt;.&lt;/span&gt;read&lt;span class="ansiblue"&gt;(&lt;/span&gt;&lt;span class="ansiblue"&gt;)&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+&lt;span class="ansigreen"&gt;    312&lt;/span&gt;         &lt;span class="ansigreen"&gt;elif&lt;/span&gt; self&lt;span class="ansiblue"&gt;.&lt;/span&gt;url &lt;span class="ansigreen"&gt;is&lt;/span&gt; &lt;span class="ansigreen"&gt;not&lt;/span&gt; None&lt;span class="ansiblue"&gt;:&lt;/span&gt;&lt;span class="ansiblue"&gt;&lt;/span&gt;
+
+&lt;span class="ansired"&gt;IOError&lt;/span&gt;: [Errno 2] No such file or directory: u&amp;apos;../visualizations/clusterTrade.png&amp;apos;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="References"&gt;References&lt;a class="anchor-link" href="#References"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
 &lt;/div&gt;
 
@@ -330,25 +410,6 @@ In&amp;nbsp;[]:
 &lt;/div&gt;
 
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Data Gathering</title><link href="http://ahdivnathan.github.io/exim/nb1.html" rel="alternate"></link><updated>2014-03-01T00:00:00-08:00</updated><author><name>Benoit Dherin</name></author><id>tag:ahdivnathan.github.io,2014-03-01:exim/nb1.html</id><summary type="html">&lt;p&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Team-members-responsible-for-this-notebook:"&gt;Team members responsible for this notebook:&lt;a class="anchor-link" href="#Team-members-responsible-for-this-notebook:"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
-&lt;/div&gt;
-
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;ul&gt;
-&lt;li&gt;Team member 1: &lt;strong&gt;William Yu&lt;/strong&gt; - contributed markdown (currencies data)&lt;/li&gt;
-&lt;li&gt;Team member 2: &lt;strong&gt;Ahdiv Nathan&lt;/strong&gt; - contributed markdown (trade data)&lt;/li&gt;
-&lt;li&gt;Team member 3: &lt;strong&gt;Winarto Anlin&lt;/strong&gt; - contributed markdown (stock index data)&lt;/li&gt;
-&lt;li&gt;Team member 4: &lt;strong&gt;Carl Moos&lt;/strong&gt; - contributed markdown (macro-econ indicators data)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h1 id="Data-Gathering"&gt;Data Gathering&lt;a class="anchor-link" href="#Data-Gathering"&gt;&amp;#182;&lt;/a&gt;&lt;/h1&gt;
-&lt;/div&gt;
-
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;Our team needs to&lt;/p&gt;
-&lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;In this notebook, you'll&lt;/p&gt;
 &lt;ul&gt;
