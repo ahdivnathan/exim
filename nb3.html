@@ -1720,7 +1720,7 @@ init_mathjax();
             <meta property="og:type" content="article"/>
             <meta property="og:title" content="Data Analysis"/>
             <meta property="og:url" content="http://ahdivnathan.github.io/exim/nb3.html"/>
-            <meta property="og:description" content="In this notebook, you'll perform the actual analysis of the data stored in the directory ./data/cleaned If the data is not ready yet (e.g. the other members of the team in charge of cleaning the data are not done yet), you may want to simulate cleaned data ..."/>
+            <meta property="og:description" content="In [2]: %load_ext rmagic In [4]: %%R source("../clean.R") # Use the functions from clean.R to create instances of the data frames in this script indexData = gatherIndexData() co2Emissions = getCO2Emissions() exportsGrowth = getExportsGrowth() gdpGrowth = getGDPGrowth() gdSaving = getGDSaving() infantMortality = getInfantMortality() netMigration = getNetMigration() realInterestRates = getRealInterestRates() exchangeData = gatherExchangeData() trade = getTradeIndex() tradeIndex = trade[,colSums(is ..."/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="http://ahdivnathan.github.io/exim/theme/css/bootstrap.min.css" type="text/css"/>
@@ -1815,24 +1815,232 @@ World Trade Project            </a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll perform the actual analysis of the data stored in the directory</p>
-<pre><code>./data/cleaned</code></pre>
-<p>If the data is not ready yet (e.g. the other members of the team in charge of cleaning the data are not done yet), you may want to simulate cleaned data in the form you want them to be in order to perform the analysis. This may also help you data cleaning team to come up with the rigth data frame. If you choose to do so, store your simulated data into the directory</p>
-<pre><code>./data/simulated</code></pre>
-<p>Having performed analysis of simulated data may help you with the analysis of the actual data, since you will be able to notice deviations between the real and simulated data, which may be worth explaining and investigating further.</p>
-<p>The graphics your going to produce as a result of your analysis should be store in the directory:</p>
-<pre><code>./visualization</code></pre>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[2]:
 </div>
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="team-members-responsible-for-this-notebook">Team members responsible for this notebook:</h2>
-<p>List the team members contributing to this notebook, along with their responsabilities:</p>
-<ul>
-<li>team member 1 <strong>name</strong>: team member 1 <strong>responsabilities</strong></li>
-<li>team member 2 <strong>name</strong>: team member 2 <strong>responsabilities</strong></li>
-<li>etc.</li>
-</ul>
-<p>I advise you to work at least in pairs for each project notebook, as you did for the homework assignments. Of course, all team members may participate to each notebook.</p>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%</span><span class="k">load_ext</span> <span class="n">rmagic</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[4]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
+<span class="n">source</span><span class="p">(</span><span class="s">&quot;../clean.R&quot;</span><span class="p">)</span>
+
+<span class="c"># Use the functions from clean.R to create instances of the data frames in this script</span>
+
+<span class="n">indexData</span> <span class="o">=</span> <span class="n">gatherIndexData</span><span class="p">()</span>
+<span class="n">co2Emissions</span> <span class="o">=</span> <span class="n">getCO2Emissions</span><span class="p">()</span>
+<span class="n">exportsGrowth</span> <span class="o">=</span> <span class="n">getExportsGrowth</span><span class="p">()</span>
+<span class="n">gdpGrowth</span> <span class="o">=</span> <span class="n">getGDPGrowth</span><span class="p">()</span>
+<span class="n">gdSaving</span> <span class="o">=</span> <span class="n">getGDSaving</span><span class="p">()</span>
+<span class="n">infantMortality</span> <span class="o">=</span> <span class="n">getInfantMortality</span><span class="p">()</span>
+<span class="n">netMigration</span> <span class="o">=</span> <span class="n">getNetMigration</span><span class="p">()</span>
+<span class="n">realInterestRates</span> <span class="o">=</span> <span class="n">getRealInterestRates</span><span class="p">()</span>
+<span class="n">exchangeData</span> <span class="o">=</span> <span class="n">gatherExchangeData</span><span class="p">()</span>
+<span class="n">trade</span> <span class="o">=</span> <span class="n">getTradeIndex</span><span class="p">()</span>
+<span class="n">tradeIndex</span> <span class="o">=</span> <span class="n">trade</span><span class="p">[,</span><span class="n">colSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">trade</span><span class="p">))</span> <span class="o">!=</span> <span class="n">nrow</span><span class="p">(</span><span class="n">trade</span><span class="p">)]</span>
+
+<span class="c"># Now we will create new Data Frames that take slices of the trade Data Frame such that</span>
+<span class="c"># we can easily regress trade on our macroeconomic indicators.  The new Data Frames</span>
+<span class="c"># will be specific to each indicator</span>
+
+<span class="n">sliceTrade</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">indCols</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+  <span class="n">tradeCols</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">tradeIndex</span><span class="p">)</span>
+  <span class="n">commonCols</span> <span class="o">=</span> <span class="n">intersect</span><span class="p">(</span><span class="n">indCols</span><span class="p">,</span> <span class="n">tradeCols</span><span class="p">)</span>
+  
+  <span class="n">indRows</span> <span class="o">=</span> <span class="n">rownames</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+  <span class="n">tradeRows</span> <span class="o">=</span> <span class="n">rownames</span><span class="p">(</span><span class="n">tradeIndex</span><span class="p">)</span>
+  <span class="n">commonRows</span> <span class="o">=</span> <span class="n">intersect</span><span class="p">(</span><span class="n">indRows</span><span class="p">,</span> <span class="n">tradeRows</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">commonRows</span><span class="p">,</span> <span class="n">commonCols</span><span class="p">],</span> <span class="n">tradeIndex</span><span class="p">[</span><span class="n">commonRows</span><span class="p">,</span> <span class="n">commonCols</span><span class="p">]))</span>
+<span class="p">}</span>
+
+<span class="n">indexSlice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">indexData</span><span class="p">)</span>
+<span class="n">co2Slice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">co2Emissions</span><span class="p">)</span>
+<span class="n">exportsSlice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">exportsGrowth</span><span class="p">)</span>
+<span class="n">gdpSlice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">gdpGrowth</span><span class="p">)</span>
+<span class="n">gdsSlice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">gdSaving</span><span class="p">)</span>
+<span class="n">infMortSlice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">infantMortality</span><span class="p">)</span>
+<span class="n">netMigSlice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">netMigration</span><span class="p">)</span>
+<span class="n">realIntSlice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">realInterestRates</span><span class="p">)</span>
+<span class="n">exchangeSlice</span> <span class="o">=</span> <span class="n">sliceTrade</span><span class="p">(</span><span class="n">exchangeData</span><span class="p">)</span>
+
+<span class="n">prepVectors</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="nb">slice</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">indVector1</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="nb">slice</span><span class="p">[[</span><span class="mi">1</span><span class="p">]]))</span>
+  <span class="n">indVector1</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">(</span><span class="n">indVector1</span><span class="p">)</span>
+  <span class="n">tradeVector</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="nb">slice</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]))</span>
+  <span class="n">indVector2</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="n">tradeVector2</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">indVector1</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">indVector1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">|</span> <span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">tradeVector</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">indVector2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">indVector2</span><span class="p">,</span> <span class="n">indVector1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+      <span class="n">tradeVector2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">tradeVector2</span><span class="p">,</span> <span class="n">tradeVector</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">indVector2</span><span class="p">,</span> <span class="n">tradeVector2</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">prepVectors2</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="nb">slice</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">df1</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">[[</span><span class="mi">1</span><span class="p">]]</span>
+  <span class="n">df2</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
+  <span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="o">-</span><span class="n">nrow</span><span class="p">(</span><span class="n">df2</span><span class="p">),]</span>
+  <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="o">-</span><span class="n">nrow</span><span class="p">(</span><span class="n">df2</span><span class="p">),]</span>
+  <span class="n">indVector1</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">df1</span><span class="p">))</span>
+  <span class="n">indVector1</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">(</span><span class="n">indVector1</span><span class="p">)</span>
+  <span class="n">tradeVector</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">df2</span><span class="p">))</span>
+  <span class="n">indVector2</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="n">tradeVector2</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">indVector1</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">indVector1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">|</span> <span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">tradeVector</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">indVector2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">indVector2</span><span class="p">,</span> <span class="n">indVector1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+      <span class="n">tradeVector2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">tradeVector2</span><span class="p">,</span> <span class="n">tradeVector</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">indVector2</span><span class="p">,</span> <span class="n">tradeVector2</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">prepVectors3</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="nb">slice</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">df1</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">[[</span><span class="mi">1</span><span class="p">]]</span>
+  <span class="n">df2</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
+  <span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="o">-</span><span class="n">nrow</span><span class="p">(</span><span class="n">df1</span><span class="p">),]</span>
+  <span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="o">-</span><span class="n">nrow</span><span class="p">(</span><span class="n">df1</span><span class="p">),]</span>
+  <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">indVector1</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">df1</span><span class="p">))</span>
+  <span class="n">indVector1</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">(</span><span class="n">indVector1</span><span class="p">)</span>
+  <span class="n">tradeVector</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">df2</span><span class="p">))</span>
+  <span class="n">indVector2</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="n">tradeVector2</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">indVector1</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">indVector1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">|</span> <span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">tradeVector</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">indVector2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">indVector2</span><span class="p">,</span> <span class="n">indVector1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+      <span class="n">tradeVector2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">tradeVector2</span><span class="p">,</span> <span class="n">tradeVector</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">indVector2</span><span class="p">,</span> <span class="n">tradeVector2</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">prepVectors4</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="nb">slice</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">df1</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">[[</span><span class="mi">1</span><span class="p">]]</span>
+  <span class="n">df2</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
+  <span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="o">-</span><span class="n">nrow</span><span class="p">(</span><span class="n">df1</span><span class="p">),]</span>
+  <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">indVector1</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">df1</span><span class="p">))</span>
+  <span class="n">indVector1</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">(</span><span class="n">indVector1</span><span class="p">)</span>
+  <span class="n">tradeVector</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">df2</span><span class="p">))</span>
+  <span class="n">indVector2</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="n">tradeVector2</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">indVector1</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">indVector1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">|</span> <span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">tradeVector</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">indVector2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">indVector2</span><span class="p">,</span> <span class="n">indVector1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+      <span class="n">tradeVector2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">tradeVector2</span><span class="p">,</span> <span class="n">tradeVector</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">indVector2</span><span class="p">,</span> <span class="n">tradeVector2</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">regressVectors</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">depVariable</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[[</span><span class="mi">1</span><span class="p">]]</span>
+  <span class="n">indVariable</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
+  <span class="n">fit</span> <span class="o">=</span> <span class="n">lm</span><span class="p">(</span><span class="n">depVariable</span> <span class="o">~</span> <span class="n">indVariable</span><span class="p">)</span>
+  <span class="n">summary</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">correlateVectors</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">myMatrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">vectors</span><span class="p">[[</span><span class="mi">1</span><span class="p">]])</span>
+  <span class="n">myMatrix</span> <span class="o">=</span> <span class="n">cbind</span><span class="p">(</span><span class="n">myMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="p">[[</span><span class="mi">2</span><span class="p">]])</span>
+  <span class="n">cor</span><span class="p">(</span><span class="n">myMatrix</span><span class="p">,</span> <span class="n">use</span><span class="o">=</span><span class="s">&quot;all.obs&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&quot;pearson&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">plotExchange</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">vectors</span><span class="p">[[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">vectors</span><span class="p">[[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;Scatterplot attempt&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;TDI&quot;</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Exchange Rate (Foreign/USD)&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">clusterTrade</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">tradeIndex</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">tradeIndex</span><span class="p">)</span>
+  <span class="n">tradeIndex</span> <span class="o">=</span> <span class="n">tradeIndex</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">tradeIndex</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,]</span>
+  <span class="n">clustered</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">(</span><span class="n">tradeIndex</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+  <span class="n">years</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:</span><span class="mi">2011</span>
+  <span class="n">center1</span> <span class="o">=</span> <span class="n">clustered</span><span class="err">$</span><span class="n">centers</span><span class="p">[</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">center2</span> <span class="o">=</span> <span class="n">clustered</span><span class="err">$</span><span class="n">centers</span><span class="p">[</span><span class="mi">2</span><span class="p">,]</span>
+  <span class="n">center3</span> <span class="o">=</span> <span class="n">clustered</span><span class="err">$</span><span class="n">centers</span><span class="p">[</span><span class="mi">3</span><span class="p">,]</span>
+  <span class="n">center4</span> <span class="o">=</span> <span class="n">clustered</span><span class="err">$</span><span class="n">centers</span><span class="p">[</span><span class="mi">4</span><span class="p">,]</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">center1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Center Means&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Years&quot;</span><span class="p">)</span>
+  <span class="n">par</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">center2</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Center Means&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Years&quot;</span><span class="p">)</span>
+  <span class="n">par</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">center3</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Center Means&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Years&quot;</span><span class="p">)</span>
+  <span class="n">par</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">center4</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Center Means&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Years&quot;</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">clustered</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">clusterExchange</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">exchangeData</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">exchangeData</span><span class="p">)</span>
+  <span class="n">exchangeData</span> <span class="o">=</span> <span class="nb">apply</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">exchangeData</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">)</span>
+  <span class="n">exchangeData</span> <span class="o">=</span> <span class="n">exchangeData</span><span class="p">[,</span><span class="n">colSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">exchangeData</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+  <span class="n">exchangeData</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">exchangeData</span><span class="p">)</span>
+  <span class="n">clustered</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">(</span><span class="n">exchangeData</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+  <span class="n">years</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:</span><span class="mi">2011</span>
+  <span class="n">center1</span> <span class="o">=</span> <span class="n">clustered</span><span class="err">$</span><span class="n">centers</span><span class="p">[</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">center2</span> <span class="o">=</span> <span class="n">clustered</span><span class="err">$</span><span class="n">centers</span><span class="p">[</span><span class="mi">2</span><span class="p">,]</span>
+  <span class="n">center3</span> <span class="o">=</span> <span class="n">clustered</span><span class="err">$</span><span class="n">centers</span><span class="p">[</span><span class="mi">3</span><span class="p">,]</span>
+  <span class="n">center4</span> <span class="o">=</span> <span class="n">clustered</span><span class="err">$</span><span class="n">centers</span><span class="p">[</span><span class="mi">4</span><span class="p">,]</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">center1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Center Means&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Years&quot;</span><span class="p">)</span>
+  <span class="n">par</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">center2</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Center Means&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Years&quot;</span><span class="p">)</span>
+  <span class="n">par</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">center3</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Center Means&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Years&quot;</span><span class="p">)</span>
+  <span class="n">par</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+  <span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">center4</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Center Means&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Years&quot;</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">clustered</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt"></div>
+<div class="box-flex1 output_subarea output_stream output_stdout">
+<pre>
+Error in file(file, &quot;rt&quot;) : cannot open the connection
+In addition: Warning message:
+In file(file, &quot;rt&quot;) :
+  cannot open file &apos;./data/stock/done/NA&apos;: No such file or directory
+Error in file(file, &quot;rt&quot;) : cannot open the connection
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div></p>
             </div>
             <!-- /.entry-content -->

@@ -1809,10 +1809,41 @@ World Trade Project            </a>
             <article>
                 <h2><a href="http://ahdivnathan.github.io/exim/nb3.html">Data Analysis</a></h2>
                 <div class="summary"><p>
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, you'll perform the actual analysis of the data stored in the directory</p>
-<pre><code>./data/cleaned</code></pre>
-<p>If the data is not ready yet (e.g. the other members of the team in charge of cleaning the data are not done yet), you may want to simulate cleaned data ...</p></div></p>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[2]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%</span><span class="k">load_ext</span> <span class="n">rmagic</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[4]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
+<span class="n">source</span><span class="p">(</span><span class="s">&quot;../clean.R&quot;</span><span class="p">)</span>
+
+<span class="c"># Use the functions from clean.R to create instances of the data frames in this script</span>
+
+<span class="n">indexData</span> <span class="o">=</span> <span class="n">gatherIndexData</span><span class="p">()</span>
+<span class="n">co2Emissions</span> <span class="o">=</span> <span class="n">getCO2Emissions</span><span class="p">()</span>
+<span class="n">exportsGrowth</span> <span class="o">=</span> <span class="n">getExportsGrowth</span><span class="p">()</span>
+<span class="n">gdpGrowth</span> <span class="o">=</span> <span class="n">getGDPGrowth</span><span class="p">()</span>
+<span class="n">gdSaving</span> <span class="o">=</span> <span class="n">getGDSaving</span><span class="p">()</span>
+<span class="n">infantMortality</span> <span class="o">=</span> <span class="n">getInfantMortality</span><span class="p">()</span>
+<span class="n">netMigration</span> <span class="o">=</span> <span class="n">getNetMigration</span><span class="p">()</span>
+<span class="n">realInterestRates</span> <span class="o">=</span> <span class="n">getRealInterestRates</span><span class="p">()</span>
+<span class="n">exchangeData</span> <span class="o">=</span> <span class="n">gatherExchangeData</span><span class="p">()</span>
+<span class="n">trade</span> <span class="o">=</span> <span class="n">getTradeIndex</span><span class="p">()</span>
+<span class="n">tradeIndex</span> <span class="o">=</span> <span class="n">trade</span><span class="p">[,</span><span class="n">colSums</span><span class="p">(</span><span class="ow">is ...</span></pre></div></div></div></div></p>
                     <a class="btn btn-default btn-xs" href="http://ahdivnathan.github.io/exim/nb3.html">more ...</a>
                 </div>
             </article>
