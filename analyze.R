@@ -143,13 +143,12 @@ plotExchange = function(vectors) {
 clusterTrade = function() {
   tradeIndex = t(tradeIndex)
   tradeIndex = tradeIndex[rowSums(is.na(tradeIndex)) == 0,]
-  clustered = kmeans(tradeIndex, 5)
+  clustered = kmeans(tradeIndex, 4)
   years = 1995:2011
   center1 = clustered$centers[1,]
   center2 = clustered$centers[2,]
   center3 = clustered$centers[3,]
   center4 = clustered$centers[4,]
-  center5 = clustered$centers[5,]
   plot(years, center1, type="l", col="red", ylim=c(0, 700), ylab="Center Means", xlab="Years")
   par(new=TRUE)
   plot(years, center2, type="l", col="green", ylim=c(0, 700), ylab="Center Means", xlab="Years")
@@ -157,8 +156,7 @@ clusterTrade = function() {
   plot(years, center3, type="l", col="blue", ylim=c(0, 700), ylab="Center Means", xlab="Years")
   par(new=TRUE)
   plot(years, center4, type="l", col="cyan", ylim=c(0, 700), ylab="Center Means", xlab="Years")
-  par(new=TRUE)
-  plot(years, center5, type="l", col="black", ylim=c(0, 700), ylab="Center Means", xlab="Years")
+  print(clustered)
 }
 
 clusterExchange = function() {
@@ -166,13 +164,12 @@ clusterExchange = function() {
   exchangeData = apply(as.matrix(exchangeData), 1, as.numeric)
   exchangeData = exchangeData[,colSums(is.na(exchangeData)) == 0]
   exchangeData = t(exchangeData)
-  clustered = kmeans(exchangeData, 5)
+  clustered = kmeans(exchangeData, 4)
   years = 1995:2011
   center1 = clustered$centers[1,]
   center2 = clustered$centers[2,]
   center3 = clustered$centers[3,]
   center4 = clustered$centers[4,]
-  center5 = clustered$centers[5,]
   plot(years, center1, type="l", col="red", ylim=c(0, 700), ylab="Center Means", xlab="Years")
   par(new=TRUE)
   plot(years, center2, type="l", col="green", ylim=c(0, 700), ylab="Center Means", xlab="Years")
@@ -180,6 +177,5 @@ clusterExchange = function() {
   plot(years, center3, type="l", col="blue", ylim=c(0, 700), ylab="Center Means", xlab="Years")
   par(new=TRUE)
   plot(years, center4, type="l", col="cyan", ylim=c(0, 700), ylab="Center Means", xlab="Years")
-  par(new=TRUE)
-  plot(years, center5, type="l", col="black", ylim=c(0, 700), ylab="Center Means", xlab="Years")
+  print(clustered)
 }
