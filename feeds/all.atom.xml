@@ -691,7 +691,7 @@ In&amp;nbsp;[2]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[2]:
+In&amp;nbsp;[1]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="k"&gt;load_ext&lt;/span&gt; &lt;span class="n"&gt;rmagic&lt;/span&gt;
@@ -704,7 +704,7 @@ In&amp;nbsp;[2]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[4]:
+In&amp;nbsp;[2]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -890,26 +890,6 @@ In&amp;nbsp;[4]:
   &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clustered&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class="vbox output_wrapper"&gt;
-&lt;div class="output vbox"&gt;
-
-
-&lt;div class="hbox output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
-&lt;div class="box-flex1 output_subarea output_stream output_stdout"&gt;
-&lt;pre&gt;
-Error in file(file, &amp;quot;rt&amp;quot;) : cannot open the connection
-In addition: Warning message:
-In file(file, &amp;quot;rt&amp;quot;) :
-  cannot open file &amp;apos;./data/stock/done/NA&amp;apos;: No such file or directory
-Error in file(file, &amp;quot;rt&amp;quot;) : cannot open the connection
-
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
