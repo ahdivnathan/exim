@@ -4983,6 +4983,9 @@ g0mABEiABEggfgQo6PFjyZhIgARIgARIIGkEKOhJQ88HkwAJkAAJkED8CFDQ48eSMZEACZAACZBA
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;&lt;sup&gt;1 &lt;/sup&gt;The World Bank Poverty Reduction and Economic Management. &amp;quot;Economic Growth in the 1990's&amp;quot; Chapter 5: Trade Liberalization- Why So Much Controversy? Accessed with http://www1.worldbank.org/prem/lessons1990s/chaps/05-Ch05_kl.pdf&lt;/p&gt;
 &lt;p&gt;&lt;sup&gt;2 &lt;/sup&gt;The International Labor Organization. &amp;quot;Trade diversification, income, and growth: what do we know&amp;quot; Accessed with http://www.ilo.org/wcmsp5/groups/public/---ed_emp/documents/presentation/wcm_041814.pdf&lt;/p&gt;
+&lt;p&gt;&lt;sup&gt;3&lt;/sup&gt;The Observatory of Economic Complexity. Accessed with http://atlas.media.mit.edu/&lt;/p&gt;
+&lt;p&gt;&lt;sup&gt;4&lt;/sup&gt;The World Bank: World Development Indicators. Accessed with http://databank.worldbank.org/data/views/variableSelection/selectvariables.aspx?source=world-development-indicators&lt;/p&gt;
+&lt;p&gt;&lt;sup&gt;5&lt;/sup&gt;Oanda Currency Converter. Accessed with http://www.oanda.com/currency/converter/&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h1 id="Thanks-for-a-great-semester!"&gt;Thanks for a great semester!&lt;a class="anchor-link" href="#Thanks-for-a-great-semester!"&gt;&amp;#182;&lt;/a&gt;&lt;/h1&gt;
@@ -11140,6 +11143,26 @@ Error in file(file, &amp;quot;rt&amp;quot;) : cannot open the connection
 &lt;/div&gt;
 &lt;/div&gt;
 
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="References"&gt;References&lt;a class="anchor-link" href="#References"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;ul&gt;
+&lt;li&gt;The Observatory of Economic Complexity.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://atlas.media.mit.edu/&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;The World Bank: World Development Indicators.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://databank.worldbank.org/data/views/variableSelection/selectvariables.aspx?source=world-development-indicators&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Oanda Currency Converter.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://www.oanda.com/currency/converter/&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Data Cleaning</title><link href="http://ahdivnathan.github.io/exim/nb2.html" rel="alternate"></link><updated>2014-03-02T00:00:00-08:00</updated><author><name>Benoit Dherin</name></author><id>tag:ahdivnathan.github.io,2014-03-02:exim/nb2.html</id><summary type="html">&lt;p&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
@@ -11347,7 +11370,30 @@ In&amp;nbsp;[2]:
 &lt;/div&gt;
 &lt;/div&gt;
 
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="References"&gt;References&lt;a class="anchor-link" href="#References"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;ul&gt;
+&lt;li&gt;The Observatory of Economic Complexity.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://atlas.media.mit.edu/&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;The World Bank: World Development Indicators.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://databank.worldbank.org/data/views/variableSelection/selectvariables.aspx?source=world-development-indicators&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Oanda Currency Converter.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://www.oanda.com/currency/converter/&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Data Gathering</title><link href="http://ahdivnathan.github.io/exim/nb1.html" rel="alternate"></link><updated>2014-03-01T00:00:00-08:00</updated><author><name>Benoit Dherin</name></author><id>tag:ahdivnathan.github.io,2014-03-01:exim/nb1.html</id><summary type="html">&lt;p&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;In this notebook, we have a script that scrapes various data pertaining to import and export information for each country from 1995 to 2012, as well as stock index data for a selection of developed nations. For each country whose import and export data we scrape, we are collecting data on who they import and export from, and the mix of products that they import and export. For each country whose stock index data we scrape, we pull raw prices of the country's main stock index for the years under investigation. After scraping the data in the form of Python dictionaries, we conduct some basic scrubbing techniques before storing the relevant information in CSVs for later use. Furthermore, to demonstrate analysis techniques using numpy, we create the Trade Diversification Index before storing that as our measure of trade diversity.&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
@@ -11779,6 +11825,26 @@ In&amp;nbsp;[1]:
 &lt;/div&gt;
 &lt;/div&gt;
 
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="References"&gt;References&lt;a class="anchor-link" href="#References"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;ul&gt;
+&lt;li&gt;The Observatory of Economic Complexity.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://atlas.media.mit.edu/&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;The World Bank: World Development Indicators.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://databank.worldbank.org/data/views/variableSelection/selectvariables.aspx?source=world-development-indicators&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Oanda Currency Converter.
+&lt;ul&gt;
+&lt;li&gt;Accessed with http://www.oanda.com/currency/converter/&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Reproducibility</title><link href="http://ahdivnathan.github.io/exim/reproducibility.html" rel="alternate"></link><updated>2014-02-28T00:00:00-08:00</updated><author><name>Benoit Dherin</name></author><id>tag:ahdivnathan.github.io,2014-02-28:exim/reproducibility.html</id><summary type="html">&lt;h1&gt;Reproducibility&lt;/h1&gt;
 &lt;h2&gt;Virtual OskiBox&lt;/h2&gt;
 &lt;h2&gt;Software Requirements&lt;/h2&gt;</summary></entry></feed>

@@ -1720,7 +1720,7 @@ init_mathjax();
             <meta property="og:type" content="article"/>
             <meta property="og:title" content="Data Gathering"/>
             <meta property="og:url" content="http://ahdivnathan.github.io/exim/nb1.html"/>
-            <meta property="og:description" content="In [1]: import json import csv import string import requests import os from pandas import DataFrame from numpy import array, ndarray, matrix import numpy import ystockquote """ This is a script that scrapes the Observatory of Economic Complexity at MIT's Media Lab. For each country whose data we scrape, we ..."/>
+            <meta property="og:description" content="In this notebook, we have a script that scrapes various data pertaining to import and export information for each country from 1995 to 2012, as well as stock index data for a selection of developed nations. For each country whose import and export data we scrape, we are collecting data ..."/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="http://ahdivnathan.github.io/exim/theme/css/bootstrap.min.css" type="text/css"/>
@@ -1815,6 +1815,9 @@ World Trade Project            </a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this notebook, we have a script that scrapes various data pertaining to import and export information for each country from 1995 to 2012, as well as stock index data for a selection of developed nations. For each country whose import and export data we scrape, we are collecting data on who they import and export from, and the mix of products that they import and export. For each country whose stock index data we scrape, we pull raw prices of the country's main stock index for the years under investigation. After scraping the data in the form of Python dictionaries, we conduct some basic scrubbing techniques before storing the relevant information in CSVs for later use. Furthermore, to demonstrate analysis techniques using numpy, we create the Trade Diversification Index before storing that as our measure of trade diversity.</p>
+</div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
@@ -2246,6 +2249,26 @@ In&nbsp;[1]:
 </div>
 </div>
 
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>The Observatory of Economic Complexity.
+<ul>
+<li>Accessed with http://atlas.media.mit.edu/</li>
+</ul></li>
+<li>The World Bank: World Development Indicators.
+<ul>
+<li>Accessed with http://databank.worldbank.org/data/views/variableSelection/selectvariables.aspx?source=world-development-indicators</li>
+</ul></li>
+<li>Oanda Currency Converter.
+<ul>
+<li>Accessed with http://www.oanda.com/currency/converter/</li>
+</ul></li>
+</ul>
 </div></p>
             </div>
             <!-- /.entry-content -->
