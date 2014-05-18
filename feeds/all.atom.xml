@@ -10917,6 +10917,9 @@ WmFKSlCy1ajwl4FZKP8A/LUhmf/Z
 &lt;/div&gt;
 
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Data Analysis</title><link href="http://ahdivnathan.github.io/exim/nb3.html" rel="alternate"></link><updated>2014-03-03T00:00:00-08:00</updated><author><name>Benoit Dherin</name></author><id>tag:ahdivnathan.github.io,2014-03-03:exim/nb3.html</id><summary type="html">&lt;p&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;After using the functions from clean.R to create instances of the data frames in this script, we have included the code we used to conduct our analysis on the data that we scraped and cleaned. There is a variety of analysis here, including basic linear regression, lagged regression, and cluster analysis, allowing us to see the trends that we describe in our project report IPython Notebook. After basic linear regression did not yield many fruitful results, we turned our focus to other analysis in order to fully understand the impact of trade diversification on a country's economic performance.&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
