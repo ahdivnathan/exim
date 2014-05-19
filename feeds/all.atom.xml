@@ -662,28 +662,11 @@ In&amp;nbsp;[40]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[10]:
+In&amp;nbsp;[2]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="k"&gt;load_ext&lt;/span&gt; &lt;span class="n"&gt;rmagic&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class="vbox output_wrapper"&gt;
-&lt;div class="output vbox"&gt;
-
-
-&lt;div class="hbox output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
-&lt;div class="box-flex1 output_subarea output_stream output_stdout"&gt;
-&lt;pre&gt;
-The rmagic extension is already loaded. To reload it, use:
-  %reload_ext rmagic
-
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -699,7 +682,7 @@ The rmagic extension is already loaded. To reload it, use:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[11]:
+In&amp;nbsp;[3]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -736,12 +719,12 @@ In&amp;nbsp;[11]:
 &lt;/div&gt;
 
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;Now we will pull the exchange rate data from the csv files we have gathered from Oanda, an open source ForEx database. &lt;br /&gt; &lt;br /&gt; This dataset is probably the most complex for analysis to be done during the next stage. As you might have guessed, the nominal values we have gathered in our data are in different currencies, and hence, we are unable to compare across them simply as is later on. We decided to use &lt;strong&gt;returns&lt;/strong&gt; instead, and analyze how returns Year-on-Year has changed with respect to diversification of trade for a given country. We also set NA for data that is not available.&lt;/p&gt;
+&lt;p&gt;Now we will pull the exchange rate data from the csv files we have gathered from Oanda, an open source ForEx database. &lt;br /&gt; &lt;br /&gt; This dataset is probably the most complex for analysis to be done during the next stage. As you might have guessed, the nominal values we have gathered in our data are ratios between each country's nominal currency and the US Dollar, but because the exchange rate is a ratio rather than a raw currency value, we are able to compare the exchange rates across currencies. We also set the entries to NA for any data that was not available.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[12]:
+In&amp;nbsp;[5]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -798,12 +781,12 @@ In&amp;nbsp;[12]:
 &lt;/div&gt;
 
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;As in currencies, the historical prices are also in the respective countries' own currency. We again focus on the &lt;strong&gt;returns&lt;/strong&gt; year-on-year for easy analysis across all countries. &lt;br /&gt; &lt;br /&gt; To give more explanation on how we do this, we take the first year data is available (from 1995-2011) as the &lt;strong&gt;base year&lt;/strong&gt;, and we replace it with the value of a 100, storing the real nominal value. Then, for each subsequent year, we normalize them by taking as a fraction of the base year's real nominal value. We now have clean, normalized data that easily reveals the returns each year. Again, we set NA for data that is not available (some stock exchanges were established after 1995).&lt;/p&gt;
+&lt;p&gt;In this case, the historical prices are given in the respective countries' own currencies. Here we focus on &lt;strong&gt;returns&lt;/strong&gt; year-over-year for easy analysis across countries. &lt;br /&gt; &lt;br /&gt; To give more explanation on how we do this, we take the first year data is available (from 1995-2011) as the &lt;strong&gt;base year&lt;/strong&gt;, and we replace it with a value of a 100, storing the real nominal value. Then, for each subsequent year, we normalize them by taking as a fraction of the base year's real nominal value. This &amp;quot;cache-and-step&amp;quot; process allows us to quickly and efficiently move from noisy nominal values to clean, normalized data that easily reveals the returns each year. Again, we set NA for data that is not available (some stock exchanges were established after 1995).&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[13]:
+In&amp;nbsp;[6]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -875,7 +858,7 @@ In&amp;nbsp;[13]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[14]:
+In&amp;nbsp;[7]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -928,7 +911,7 @@ In&amp;nbsp;[14]:
 &lt;/div&gt;
 
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;Our data cleaning process loads the .csv files previously produced from data gathering into R Data Frames, with some cleaning for certain datasets along the way. We decided to do store everything into R Data Frames because this is the easiest R object to carry out analysis moving forward. In summary, we know have 4 clean 2-D R Data Frames for each of our 4 datasets: &lt;br /&gt; &lt;br /&gt; 1. &lt;strong&gt;TDI Data Frame&lt;/strong&gt;: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are TDI for the country in that year. &lt;br /&gt; 2. &lt;strong&gt;Currencies Data Frame&lt;/strong&gt;: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are &lt;strong&gt;normalized&lt;/strong&gt; exchange rate averages with 1 USD for the country's currency in that year. &lt;br /&gt; 3. &lt;strong&gt;Stock Index Data Frame&lt;/strong&gt;: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are &lt;strong&gt;normalized&lt;/strong&gt; stock index averages in that country for the year. &lt;br /&gt; 4. &lt;strong&gt;Economic Indicators Data Frame&lt;/strong&gt;: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are the respective macro-economic indicator score/metric. &lt;br /&gt; &lt;br /&gt; As we can see above, even though our datasets and sources are varied, we have cleaned them into R Data Frames having the same rows and columns for easy analysis in the next part.&lt;/p&gt;
+&lt;p&gt;Our data cleaning process loads the .csv files previously produced from data gathering into R Data Frames, with some cleaning for certain datasets along the way. We decided to store everything into R Data Frames because this is the easiest R object to carry out analysis moving forward. In summary, we know have a clean 2-D R Data Frames for each of our 4 datasets: &lt;br /&gt; &lt;br /&gt; 1. &lt;strong&gt;TDI Data Frame&lt;/strong&gt;: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are TDI for the country in that year. &lt;br /&gt; 2. &lt;strong&gt;Currencies Data Frame&lt;/strong&gt;: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are &lt;strong&gt;normalized&lt;/strong&gt; exchange rate averages with 1 USD for the country's currency in that year. &lt;br /&gt; 3. &lt;strong&gt;Stock Index Data Frame&lt;/strong&gt;: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are &lt;strong&gt;normalized&lt;/strong&gt; stock index averages in that country for the year. &lt;br /&gt; 4. &lt;strong&gt;Economic Indicators Data Frame&lt;/strong&gt;: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are the respective macro-economic indicator score/metric. &lt;br /&gt; &lt;br /&gt; As we can see above, even though our datasets and sources are varied, we have cleaned them into R Data Frames having the same rows and columns for easy analysis in the next part.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="References"&gt;References&lt;a class="anchor-link" href="#References"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
