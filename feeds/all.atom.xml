@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>World Trade Project</title><link href="http://ahdivnathan.github.io/exim/" rel="alternate"></link><link href="http://ahdivnathan.github.io/exim/feeds/all.atom.xml" rel="self"></link><id>http://ahdivnathan.github.io/exim/</id><updated>2014-05-18T00:00:00-07:00</updated><entry><title>Team MyGod Data Gathering</title><link href="http://ahdivnathan.github.io/exim/nb1.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb1.html</id><summary type="html">&lt;p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>World Trade Project</title><link href="http://ahdivnathan.github.io/exim/" rel="alternate"></link><link href="http://ahdivnathan.github.io/exim/feeds/all.atom.xml" rel="self"></link><id>http://ahdivnathan.github.io/exim/</id><updated>2014-05-18T00:00:00-07:00</updated><entry><title>Data Gathering</title><link href="http://ahdivnathan.github.io/exim/nb1.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb1.html</id><summary type="html">&lt;p&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="Overview"&gt;Overview&lt;a class="anchor-link" href="#Overview"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
 &lt;/div&gt;
@@ -651,7 +651,7 @@ In&amp;nbsp;[40]:
 &lt;li&gt;Accessed with http://www.oanda.com/currency/converter/&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Team MyGod Data Cleaning</title><link href="http://ahdivnathan.github.io/exim/nb2.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb2.html</id><summary type="html">&lt;p&gt;
+&lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Data Cleaning</title><link href="http://ahdivnathan.github.io/exim/nb2.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb2.html</id><summary type="html">&lt;p&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="Overview"&gt;Overview&lt;a class="anchor-link" href="#Overview"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
 &lt;/div&gt;
@@ -932,7 +932,7 @@ In&amp;nbsp;[7]:
 &lt;li&gt;Accessed with http://www.oanda.com/currency/converter/&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Team MyGod Data Analysis</title><link href="http://ahdivnathan.github.io/exim/nb3.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb3.html</id><summary type="html">&lt;p&gt;
+&lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Data Analysis</title><link href="http://ahdivnathan.github.io/exim/nb3.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb3.html</id><summary type="html">&lt;p&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="Overview"&gt;Overview&lt;a class="anchor-link" href="#Overview"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
 &lt;/div&gt;
@@ -2373,7 +2373,7 @@ In&amp;nbsp;[9]:
 &lt;li&gt;Accessed with http://www.oanda.com/currency/converter/&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Team MyGod Project Report</title><link href="http://ahdivnathan.github.io/exim/nb4.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb4.html</id><summary type="html">&lt;p&gt;
+&lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Project Report</title><link href="http://ahdivnathan.github.io/exim/nb4.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb4.html</id><summary type="html">&lt;p&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="Team-members-responsible-for-this-notebook:"&gt;Team members responsible for this notebook:&lt;a class="anchor-link" href="#Team-members-responsible-for-this-notebook:"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
 &lt;/div&gt;
