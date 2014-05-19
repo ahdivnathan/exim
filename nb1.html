@@ -1611,11 +1611,11 @@ h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anch
 .highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
 .highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
 .highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
-.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .go { color: #808080 } /* Generic.Output */
 .highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
 .highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
 .highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .gt { color: #0040D0 } /* Generic.Traceback */
 .highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
 .highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
 .highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
@@ -1720,7 +1720,7 @@ init_mathjax();
             <meta property="og:type" content="article"/>
             <meta property="og:title" content="Team MyGod Data Gathering"/>
             <meta property="og:url" content="http://ahdivnathan.github.io/exim/nb1.html"/>
-            <meta property="og:description" content="In this notebook, we have a script that scrapes various data pertaining to import and export information for each country from 1995 to 2012, as well as stock index data for a selection of developed nations. For each country whose import and export data we scrape, we are collecting data ..."/>
+            <meta property="og:description" content="Overview¶ In this notebook, we have a script that scrapes various data pertaining to import and export information for each country from 1995 to 2012, as well as stock index data for a selection of developed nations. For each country whose import and export data we scrape, we are collecting ..."/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="http://ahdivnathan.github.io/exim/theme/css/bootstrap.min.css" type="text/css"/>
@@ -1816,12 +1816,19 @@ World Trade Project            </a>
                 </div>
                 <p>
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, we have a script that scrapes various data pertaining to import and export information for each country from 1995 to 2012, as well as stock index data for a selection of developed nations. For each country whose import and export data we scrape, we are collecting data on who they import and export from, and the mix of products that they import and export. For each country whose stock index data we scrape, we pull raw prices of the country's main stock index for the years under investigation. After scraping the data in the form of Python dictionaries, we conduct some basic scrubbing techniques before storing the relevant information in CSVs for later use. Furthermore, to demonstrate analysis techniques using numpy, we create the Trade Diversification Index before storing that as our measure of trade diversity.</p>
+<h2 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this notebook, we have a script that scrapes various data pertaining to import and export information for each country from 1995 to 2012, as well as stock index data for a selection of developed nations. For each country whose import and export data we scrape, we are collecting data on who they import and export from, and the mix of products that they import and export. For each country whose stock index data we scrape, we pull raw prices of the country's main stock index for the years under investigation. After scraping the data in the form of Python dictionaries, we conduct some basic scrubbing techniques before storing the relevant information in CSVs for later use. Furthermore, to demonstrate analysis techniques using numpy, we create the Trade Diversification Index before storing that as our measure of trade diversity. We will be going over the data gathering process of our 4 datasets: <br /> <br /> 1. Export and Import Data <br /> 2. Currency Exchange Rates <br /> 3. Stock Index Prices <br /> 4. Economic Indicators</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Before we proceed, for simplicity, we will import all the libraries that we will need in this notebook.</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[1]:
+In&nbsp;[30]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="kn">import</span> <span class="nn">json</span>
@@ -1833,12 +1840,29 @@ In&nbsp;[1]:
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">matrix</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">ystockquote</span>
+</pre></div>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This is a script that scrapes the Observatory of Economic Complexity at MIT&#39;s Media Lab.  For each country whose data we scrape, we are collecting data on who they import and export from, and what products they import and export.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+</div>
+</div>
 
-<span class="k">def</span> <span class="nf">load_country_dict</span><span class="p">():</span>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Export-and-Import-Data">Export and Import Data<a class="anchor-link" href="#Export-and-Import-Data">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Export and Import data is collected through scrapping the Obervatory of Economic Complexity website from MIT's Media Lab. We are gathering data on the monetary values of goods being exported and imported, as well as to which partner countries.</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following function definitions in the Python language are aimed to do just that. We first define the set of countries we wish to gather data from.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[31]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">load_country_dict</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Here we are loading from a CSV the countries about which we are able to scrape data.  This list of countries was downloaded directly from http://atlas.media.mit.edu/about/data/country/.  The goal of this project was to scrape the import/export data, so we simply downloaded this data from the website.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1848,8 +1872,22 @@ In&nbsp;[1]:
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
         <span class="n">country_dict</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">country_dict</span>
+</pre></div>
 
-<span class="k">def</span> <span class="nf">get_product_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, we are ready to define the functions that will perform the actual scrapping. For your reference, the website is http://atlas.media.mit.edu/hs/export/</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[32]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">get_product_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function returns the JSON file that contains the data on each country from the URL specified below.  The JSON file is pulled as a dictionary, and is then scrubbed into a list of dictionaries, in which each dictionary contains information about a particular product that is imported or exported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1907,254 +1945,6 @@ In&nbsp;[1]:
             <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">to_write</span><span class="p">)</span>
             <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">No we will define the functions that we will call to scrape the stock index data for various countries.  Because not all countries have established indexes, we will only be gathering this data for a select list of countries.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-            
-<span class="k">def</span> <span class="nf">csvExtract</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function takes a previously downloaded csv file of the historical daily prices for a stock index, and determines the average price for each year, storing the averages in another csv file with the designated country&#39;s name.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">rawdata</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">filepath</span> <span class="o">=</span> <span class="s">&#39;data/stock/manual/&#39;</span> <span class="o">+</span> <span class="n">filename</span>
-    <span class="n">file2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
-    <span class="n">reader2</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">file2</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader2</span><span class="p">:</span>
-        <span class="n">rawdata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-
-	<span class="n">currentYear</span> <span class="o">=</span> <span class="n">rawdata</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
-	<span class="n">prices</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rawdata</span><span class="p">)):</span>
-		<span class="k">if</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="n">currentYear</span><span class="p">:</span>
-			<span class="n">prices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">4</span><span class="p">]))</span>
-		<span class="k">else</span><span class="p">:</span>
-			<span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">currentYear</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">prices</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prices</span><span class="p">)])</span>
-			<span class="n">prices</span> <span class="o">=</span> <span class="p">[]</span>
-			<span class="n">currentYear</span> <span class="o">=</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
-			<span class="n">prices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">4</span><span class="p">]))</span>
-
-	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-	<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-		<span class="k">if</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">12</span><span class="p">:</span>
-			<span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;20&#39;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-			<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-		<span class="k">elif</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">:</span>
-			<span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;19&#39;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/stock/done/&#39;</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
-		<span class="n">file1write</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">file1</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;,&#39;</span><span class="p">)</span>
-		<span class="n">file1write</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-	<span class="n">file1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-<span class="k">def</span> <span class="nf">yahooExtract</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function uses the python library &#39;ystockquote&#39;, which requests historical prices and returns them as dictionaries.  We then determine the average prices for each year, storing these averages in a csv file with the given country&#39;s name.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">rawdata</span> <span class="o">=</span> <span class="n">ystockquote</span><span class="o">.</span><span class="n">get_historical_prices</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="s">&#39;1995-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;2011-12-31&#39;</span><span class="p">)</span>
-    
-    <span class="n">prices</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">rawdata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="ow">in</span> <span class="n">prices</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">prices</span><span class="p">[</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">date</span><span class="p">][</span><span class="s">&#39;Close&#39;</span><span class="p">]))</span>
-        <span class="k">else</span><span class="p">:</span>
-			<span class="n">prices</span><span class="p">[</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-			<span class="n">prices</span><span class="p">[</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">date</span><span class="p">][</span><span class="s">&#39;Close&#39;</span><span class="p">]))</span>
-
-	<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">prices</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-		<span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">year</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">year</span><span class="p">]))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">year</span><span class="p">])])</span>
-
-	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/stock/done/&#39;</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
-		<span class="n">file1write</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">file1</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;,&#39;</span><span class="p">)</span>
-		<span class="n">file1write</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-	<span class="n">file1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    
-<span class="k">def</span> <span class="nf">getIndexPrices</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Now that we have defined all of the functions required, we run through a previously defined csv file that links each country to its stock index data source.  We also use the standard 3-letter country codes when making new csv files.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">filename</span> <span class="o">=</span> <span class="s">&#39;data/stock/country_indexes.csv&#39;</span>
-    
-    <span class="n">indexes</span> <span class="o">=</span> <span class="p">{}</span>
-    
-    <span class="n">csvfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
-    
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-        <span class="n">indexes</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-    <span class="n">countryCodes</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">csvfile2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/stock/country_codes.txt&#39;</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
-    <span class="n">reader2</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile2</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader2</span><span class="p">:</span>
-        <span class="n">countryCodes</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    
-    <span class="n">csvfile2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    
-    <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">indexes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">countryCode</span> <span class="o">=</span> <span class="n">countryCodes</span><span class="p">[</span><span class="n">country</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
-        <span class="k">if</span> <span class="n">indexes</span><span class="p">[</span><span class="n">country</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;manual&#39;</span><span class="p">:</span>
-            <span class="n">csvExtract</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="n">country</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">countryCode</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">yahooExtract</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="n">country</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">countryCode</span><span class="p">)</span>
-    <span class="n">csvfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    
-<span class="k">def</span> <span class="nf">load_country_product_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and returns an array of the products imported and exported by a given country for a given year.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/prod/&#39;</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;.txt&#39;</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="n">product_array</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-        <span class="n">product_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">product_array</span>
-
-<span class="k">def</span> <span class="nf">load_country_partner_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and loads an array of the import and export partners for a given country for a given year.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/part/&#39;</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;.txt&#39;</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="n">partner_array</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-        <span class="n">partner_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">partner_array</span>
-
-<span class="k">def</span> <span class="nf">get_product_breakdown</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function breaks down each product to give us the percentage mix of a given country&#39;s imports and exports for a given year.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">product_array</span> <span class="o">=</span> <span class="n">load_country_product_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
-    <span class="n">total_exports</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">total_imports</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">product_array</span><span class="p">)):</span>
-        <span class="n">total_exports</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">total_imports</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-    <span class="n">product_mix_array</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">product_array</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">total_exports</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">total_imports</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">total_exports</span><span class="p">)</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
-            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">total_imports</span><span class="p">)</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
-            <span class="n">product_mix_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span> <span class="n">country</span>
-    <span class="k">return</span> <span class="n">product_mix_array</span>
-
-<span class="k">def</span> <span class="nf">get_partner_breakdown</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function breaks down each partner to give us the percentage mix of a given country&#39;s imports and exports for a given year.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">partner_array</span> <span class="o">=</span> <span class="n">load_country_partner_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
-    <span class="n">total_exports</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">total_imports</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">partner_return</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">partner_array</span><span class="p">)):</span>
-        <span class="n">total_exports</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">total_imports</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-    <span class="n">product_mix_array</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">partner_array</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">total_exports</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">total_imports</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">total_exports</span><span class="p">)</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
-            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">total_imports</span><span class="p">)</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
-            <span class="n">partner_return</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span> <span class="n">country</span>
-    <span class="k">return</span> <span class="n">partner_return</span>
-
-<span class="k">def</span> <span class="nf">categorize_products</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function breaks down the product mix into the 21 categories provided in order to find the diversity of trade.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">product_mix_array</span> <span class="o">=</span> <span class="n">get_product_breakdown</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
-    <span class="n">product_export_mix_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">product_import_mix_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">product_mix_array</span><span class="p">)):</span>
-        <span class="n">hs4_id</span> <span class="o">=</span> <span class="n">product_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">hs4_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">product_export_mix_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">product_export_mix_dict</span><span class="p">[</span><span class="n">hs4_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">product_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">product_export_mix_dict</span><span class="p">[</span><span class="n">hs4_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">product_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">hs4_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">product_import_mix_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">product_import_mix_dict</span><span class="p">[</span><span class="n">hs4_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">product_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">product_import_mix_dict</span><span class="p">[</span><span class="n">hs4_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">product_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">product_export_mix_dict</span><span class="p">,</span> <span class="n">product_import_mix_dict</span>
-
-<span class="k">def</span> <span class="nf">categorize_partners</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function breaks down the partner mix into the 6 main continents provided in order to find the diversity of trade.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">partner_mix_array</span> <span class="o">=</span> <span class="n">get_partner_breakdown</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
-    <span class="n">partner_export_mix_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">partner_import_mix_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">partner_mix_array</span><span class="p">)):</span>
-        <span class="n">dest_id</span> <span class="o">=</span> <span class="n">partner_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">dest_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">partner_export_mix_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">partner_export_mix_dict</span><span class="p">[</span><span class="n">dest_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">partner_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">partner_export_mix_dict</span><span class="p">[</span><span class="n">dest_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">partner_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">dest_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">partner_import_mix_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">partner_import_mix_dict</span><span class="p">[</span><span class="n">dest_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">partner_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">partner_import_mix_dict</span><span class="p">[</span><span class="n">dest_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">partner_mix_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">partner_export_mix_dict</span><span class="p">,</span> <span class="n">partner_import_mix_dict</span>
-
-<span class="k">def</span> <span class="nf">calc_export_product_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">categorize_products</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)):</span>
-        <span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">calc_import_product_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">categorize_products</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)):</span>
-        <span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">calc_export_partner_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">categorize_partners</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)):</span>
-        <span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">calc_import_partner_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">categorize_partners</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)):</span>
-        <span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">calc_trade_index</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
-    <span class="n">export_product_variance</span> <span class="o">=</span> <span class="n">calc_export_product_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
-    <span class="n">import_product_variance</span> <span class="o">=</span> <span class="n">calc_import_product_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
-    <span class="n">export_partner_variance</span> <span class="o">=</span> <span class="n">calc_export_partner_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
-    <span class="n">import_partner_variance</span> <span class="o">=</span> <span class="n">calc_import_partner_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
-    <span class="n">variances</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">export_product_variance</span><span class="p">,</span> <span class="n">import_product_variance</span><span class="p">,</span> <span class="n">export_partner_variance</span><span class="p">,</span> <span class="n">import_partner_variance</span><span class="p">])</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">variances</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">index</span>
-
 <span class="k">def</span> <span class="nf">create_export_product_csv</span><span class="p">():</span>
     <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;1995&#39;</span><span class="p">,</span> <span class="s">&#39;1996&#39;</span><span class="p">,</span> <span class="s">&#39;1997&#39;</span><span class="p">,</span> <span class="s">&#39;1998&#39;</span><span class="p">,</span> <span class="s">&#39;1999&#39;</span><span class="p">,</span> <span class="s">&#39;2000&#39;</span><span class="p">,</span> <span class="s">&#39;2001&#39;</span><span class="p">,</span> <span class="s">&#39;2002&#39;</span><span class="p">,</span> <span class="s">&#39;2003&#39;</span><span class="p">,</span> <span class="s">&#39;2004&#39;</span><span class="p">,</span> <span class="s">&#39;2005&#39;</span><span class="p">,</span> <span class="s">&#39;2006&#39;</span><span class="p">,</span> <span class="s">&#39;2007&#39;</span><span class="p">,</span> <span class="s">&#39;2008&#39;</span><span class="p">,</span> <span class="s">&#39;2009&#39;</span><span class="p">,</span> <span class="s">&#39;2010&#39;</span><span class="p">,</span> <span class="s">&#39;2011&#39;</span><span class="p">]</span>
     <span class="n">countries</span> <span class="o">=</span> <span class="n">load_country_dict</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -2227,28 +2017,370 @@ In&nbsp;[1]:
     <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">values_arr</span><span class="p">)</span>
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     
-<span class="k">def</span> <span class="nf">create_trade_index_csv</span><span class="p">():</span>
-    <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;1995&#39;</span><span class="p">,</span> <span class="s">&#39;1996&#39;</span><span class="p">,</span> <span class="s">&#39;1997&#39;</span><span class="p">,</span> <span class="s">&#39;1998&#39;</span><span class="p">,</span> <span class="s">&#39;1999&#39;</span><span class="p">,</span> <span class="s">&#39;2000&#39;</span><span class="p">,</span> <span class="s">&#39;2001&#39;</span><span class="p">,</span> <span class="s">&#39;2002&#39;</span><span class="p">,</span> <span class="s">&#39;2003&#39;</span><span class="p">,</span> <span class="s">&#39;2004&#39;</span><span class="p">,</span> <span class="s">&#39;2005&#39;</span><span class="p">,</span> <span class="s">&#39;2006&#39;</span><span class="p">,</span> <span class="s">&#39;2007&#39;</span><span class="p">,</span> <span class="s">&#39;2008&#39;</span><span class="p">,</span> <span class="s">&#39;2009&#39;</span><span class="p">,</span> <span class="s">&#39;2010&#39;</span><span class="p">,</span> <span class="s">&#39;2011&#39;</span><span class="p">]</span>
-    <span class="n">countries</span> <span class="o">=</span> <span class="n">load_country_dict</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-    <span class="n">values_arr</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">countries_proxy</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
-        <span class="n">countries_proxy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">country</span><span class="p">)</span>
-    <span class="n">values_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">countries_proxy</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-        <span class="n">year_arr</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
-            <span class="n">year_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calc_trade_index</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">))</span>
-        <span class="n">values_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year_arr</span><span class="p">)</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/trade/trade_index.csv&#39;</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span>
-    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">values_arr</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
 </div>
 </div>
 
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The above functions neatly organized the scrapped export and import data into .csv files, which will be easy to load into more complex functions that we will define now: <br /> <br /> 1. <strong>load_country_product_data</strong>: this function simply loads our .csv files and returns an array of the products imported and exported by a given country for a given year.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[33]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">load_country_product_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and returns an array of the products imported and exported by a given country for a given year.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/prod/&#39;</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;.txt&#39;</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">product_array</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">product_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">product_array</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>'2. <strong>load_country_partner_data</strong>: this function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and loads an array of the import and export partners for a given country for a given year.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[34]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">load_country_partner_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function explores the data that has been previously scraped and written to files by the function write_data_to_files(), and loads an array of the import and export partners for a given country for a given year.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/part/&#39;</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;.txt&#39;</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">partner_array</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">partner_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">partner_array</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>'3. <strong>get_product_breakdown</strong>: This function breaks down each product to give us the percentage mix of a given country's imports and exports for a given year.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[35]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">get_product_breakdown</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function breaks down each product to give us the percentage mix of a given country&#39;s imports and exports for a given year.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">product_array</span> <span class="o">=</span> <span class="n">load_country_product_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
+    <span class="n">total_exports</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_imports</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">product_array</span><span class="p">)):</span>
+        <span class="n">total_exports</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">total_imports</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">product_mix_array</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">product_array</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">total_exports</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">total_imports</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">total_exports</span><span class="p">)</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">product_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">total_imports</span><span class="p">)</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+            <span class="n">product_mix_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">country</span>
+    <span class="k">return</span> <span class="n">product_mix_array</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>'4. <strong>get_partner_breakdown</strong>: This function breaks down each partner to give us the percentage mix of a given country's imports and exports for a given year.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[36]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">get_partner_breakdown</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function breaks down each partner to give us the percentage mix of a given country&#39;s imports and exports for a given year.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">partner_array</span> <span class="o">=</span> <span class="n">load_country_partner_data</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
+    <span class="n">total_exports</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_imports</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">partner_return</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">partner_array</span><span class="p">)):</span>
+        <span class="n">total_exports</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">total_imports</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">product_mix_array</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">partner_array</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">total_exports</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">total_imports</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">total_exports</span><span class="p">)</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">partner_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">total_imports</span><span class="p">)</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+            <span class="n">partner_return</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">country</span>
+    <span class="k">return</span> <span class="n">partner_return</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>'5. <strong>categorize_products</strong>: This function breaks down the product mix into the 21 categories provided in order to find the diversity of trade. This is necessary because the types of goods in our dataset is simply way too many to analyze in a clear manner. These 21 categories are used as standards for categorizing traded goods around the world.</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Trade-Diversification-Index-(TDI)">Trade Diversification Index (TDI)<a class="anchor-link" href="#Trade-Diversification-Index-(TDI)">&#182;</a></h3>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will sidetrack a little to cover the next couple of functions. As mentioned, our project is to analyze the effects of the diversification of a given country's imported and exported goods/partners. Basically, we have 4 sub-datasets within export and import data -- amount of imported goods (for each category), amount of exported goods (for each category), amount of imported goods (for each partner country), amount of exported goods (for each partner country). <br /> <br /> With these, and associating diversification with variance, we will determine the variance of each sub-dataset, and then sum them up by using equal weights. The resulting value will be a given country's TDI.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[37]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">calc_export_product_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">categorize_products</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)):</span>
+        <span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calc_import_product_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">categorize_products</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)):</span>
+        <span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calc_export_partner_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">categorize_partners</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)):</span>
+        <span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calc_import_partner_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">categorize_partners</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)):</span>
+        <span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakdown</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">breakdown</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calc_trade_index</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="n">export_product_variance</span> <span class="o">=</span> <span class="n">calc_export_product_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
+    <span class="n">import_product_variance</span> <span class="o">=</span> <span class="n">calc_import_product_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
+    <span class="n">export_partner_variance</span> <span class="o">=</span> <span class="n">calc_export_partner_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
+    <span class="n">import_partner_variance</span> <span class="o">=</span> <span class="n">calc_import_partner_variance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
+    <span class="n">variances</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">export_product_variance</span><span class="p">,</span> <span class="n">import_product_variance</span><span class="p">,</span> <span class="n">export_partner_variance</span><span class="p">,</span> <span class="n">import_partner_variance</span><span class="p">])</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">variances</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">index</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Currency-Exchange-Rates">Currency Exchange Rates<a class="anchor-link" href="#Currency-Exchange-Rates">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For currency exchange, we are fortunate to chance upon a site that can give us historical rates for currency exchange across the worl in .csv files. The website url is http://www.oanda.com/currency/historical-rates/ . We simply refer to the countries that already has import and export data above, and download the .csv file from the site if available.</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Stock-Index-Prices">Stock Index Prices<a class="anchor-link" href="#Stock-Index-Prices">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Again, from the countries that already has import and export data, we try to obtain historical prices for that country's major stock composite index. The difficulty we face is that many smaller, less well-known countries do not have such information publicly (or freely) available. Furthermore, even though the Dow Jones have indexes for quite a number of the more major countries, they have commercialized their data and we are unable to obtain them at no cost. Nevertheless, we are still able to obtain the historical prices (from 1995-2011, subject to availability) for 25 major countries. The pool of countries is also diversified, and so we feel that this will still be sufficient for analysis. <br /> <br /> We essentially have 2 sources of obtaining historical stock index prices. The first is from respective stock exchange websites where we are able to download the .csv files manually. The other is from inquiring Yahoo! finance from within Python itself (if the ticker symbol is present on the site).</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Manual-.csv-Files">Manual .csv Files<a class="anchor-link" href="#Manual-.csv-Files">&#182;</a></h3>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After having downloaded the .csv files manually, we now load them into Python and extract only the essential information that we need. For instance, the .csv files give us opening price, closing price, highs and lows on a daily basis. We just need a single price for each given year in 1995-2011. We store them into .csv files again, containing just average annual prices against years from 1995-2011.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[38]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">csvExtract</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function takes a previously downloaded csv file of the historical daily prices for a stock index, and determines the average price for each year, storing the averages in another csv file with the designated country&#39;s name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">rawdata</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="s">&#39;data/stock/manual/&#39;</span> <span class="o">+</span> <span class="n">filename</span>
+    <span class="n">file2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
+    <span class="n">reader2</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">file2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader2</span><span class="p">:</span>
+        <span class="n">rawdata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+	<span class="n">currentYear</span> <span class="o">=</span> <span class="n">rawdata</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+	<span class="n">prices</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rawdata</span><span class="p">)):</span>
+		<span class="k">if</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="n">currentYear</span><span class="p">:</span>
+			<span class="n">prices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">4</span><span class="p">]))</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">currentYear</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">prices</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prices</span><span class="p">)])</span>
+			<span class="n">prices</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="n">currentYear</span> <span class="o">=</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+			<span class="n">prices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">4</span><span class="p">]))</span>
+
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">12</span><span class="p">:</span>
+			<span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;20&#39;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+			<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+		<span class="k">elif</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">:</span>
+			<span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;19&#39;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/stock/done/&#39;</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+		<span class="n">file1write</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">file1</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;,&#39;</span><span class="p">)</span>
+		<span class="n">file1write</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+	<span class="n">file1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Yahoo!-Finance">Yahoo! Finance<a class="anchor-link" href="#Yahoo!-Finance">&#182;</a></h3>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For inquiring stock data from Yahoo! finance, there is a very neat Python library <strong>ystockquote</strong>, which returns historical prices in nested dictionaries. Again, for uniformity, we extracted the data that we need (since we are given daily opening/closing/high/low prices), and store them into .csv files with merely annual average prices against years from 1995-2011.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[39]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">yahooExtract</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">country</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function uses the python library &#39;ystockquote&#39;, which requests historical prices and returns them as dictionaries.  We then determine the average prices for each year, storing these averages in a csv file with the given country&#39;s name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">rawdata</span> <span class="o">=</span> <span class="n">ystockquote</span><span class="o">.</span><span class="n">get_historical_prices</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="s">&#39;1995-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;2011-12-31&#39;</span><span class="p">)</span>
+    
+    <span class="n">prices</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">rawdata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="ow">in</span> <span class="n">prices</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">prices</span><span class="p">[</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">date</span><span class="p">][</span><span class="s">&#39;Close&#39;</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+			<span class="n">prices</span><span class="p">[</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="n">prices</span><span class="p">[</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">date</span><span class="p">][</span><span class="s">&#39;Close&#39;</span><span class="p">]))</span>
+
+	<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">prices</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+		<span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">year</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">year</span><span class="p">]))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">year</span><span class="p">])])</span>
+
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/stock/done/&#39;</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+		<span class="n">file1write</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">file1</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;,&#39;</span><span class="p">)</span>
+		<span class="n">file1write</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+	<span class="n">file1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have now defined both functions that we will need to gather data from our 2 types of data sources for stock index prices. We have also predefined on a .csv file which of the 2 methods we will be using to collect the data from, as well as noting if their data is unattainable. The following code will write final .csv files into a single folder, where each .csv file is a given country's historical index price.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[40]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="k">def</span> <span class="nf">getIndexPrices</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Now that we have defined all of the functions required, we run through a previously defined csv file that links each country to its stock index data source.  We also use the standard 3-letter country codes when making new csv files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&#39;data/stock/country_indexes.csv&#39;</span>
+    
+    <span class="n">indexes</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="n">csvfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">indexes</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">countryCodes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">csvfile2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data/stock/country_codes.txt&#39;</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">)</span>
+    <span class="n">reader2</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader2</span><span class="p">:</span>
+        <span class="n">countryCodes</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="n">csvfile2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">indexes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">countryCode</span> <span class="o">=</span> <span class="n">countryCodes</span><span class="p">[</span><span class="n">country</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="n">indexes</span><span class="p">[</span><span class="n">country</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;manual&#39;</span><span class="p">:</span>
+            <span class="n">csvExtract</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="n">country</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">countryCode</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">yahooExtract</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="n">country</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">countryCode</span><span class="p">)</span>
+    <span class="n">csvfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Economic-Indicators">Economic Indicators<a class="anchor-link" href="#Economic-Indicators">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our last dataset is macro-economic indicators. Like currencies, we are able to download manually .csv files from the website http://databank.worldbank.org/data/views/variableSelection/selectvariables.aspx?source=world-development-indicators. We have a lot of missing data, but we will cover that in the data cleaning portion of our project.</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To recap, since we have a numerous datasets and sources, we have now gathered all the 4 required datasets for our analysis (in raw form) as .csv files. We do this because we would like to use both Python and R extensively, for data gathering and data cleaning and analysis respectively, and having gathered data in the form of .csv files will give a seamless transition between the 2 programming languages. This way, we can utilize the strengths of different programming languages to our own advantage (Python libraries such as ystockquote, and R's statistical analysis tools).</p>
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2>

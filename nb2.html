@@ -1611,11 +1611,11 @@ h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anch
 .highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
 .highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
 .highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
-.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .go { color: #808080 } /* Generic.Output */
 .highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
 .highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
 .highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .gt { color: #0040D0 } /* Generic.Traceback */
 .highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
 .highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
 .highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
@@ -1720,7 +1720,7 @@ init_mathjax();
             <meta property="og:type" content="article"/>
             <meta property="og:title" content="Team MyGod Data Cleaning"/>
             <meta property="og:url" content="http://ahdivnathan.github.io/exim/nb2.html"/>
-            <meta property="og:description" content="This R Script will take the scraped data from our CSV files and put it into R Data Frames for easy analysis. The output of the final functions will be a Data Frame with years for rows and countries for columns. Additionally, we will make some basic plots to identify ..."/>
+            <meta property="og:description" content="Overview¶ This R Script will take the scraped data from our CSV files and put it into R Data Frames for easy analysis. The output of the final functions will be a Data Frame with years for rows and countries for columns. Additionally, we will make some basic plots to ..."/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="http://ahdivnathan.github.io/exim/theme/css/bootstrap.min.css" type="text/css"/>
@@ -1816,12 +1816,16 @@ World Trade Project            </a>
                 </div>
                 <p>
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>This R Script will take the scraped data from our CSV files and put it into R Data Frames for easy analysis. The output of the final functions will be a Data Frame with years for rows and countries for columns. Additionally, we will make some basic plots to identify areas of analysis that we should explore more thoroughly. Here we also introduce our macroeconomic data and foreign exchange rate data, both of which were scraped manually due to a simple interface provided by our source websites.</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[1]:
+In&nbsp;[10]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%</span><span class="k">load_ext</span> <span class="n">rmagic</span>
@@ -1830,125 +1834,80 @@ In&nbsp;[1]:
 </div>
 </div>
 
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt"></div>
+<div class="box-flex1 output_subarea output_stream output_stdout">
+<pre>
+The rmagic extension is already loaded. To reload it, use:
+  %reload_ext rmagic
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Import-and-Export-Data">Import and Export Data<a class="anchor-link" href="#Import-and-Export-Data">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will first gather the trade data that we have stored in the csv files. Each of the csv files contains the variance of the particular category for each country in each year. We will gather the trade data in order to understand how diversity of trade affects countries' economic performance. <br /> <br /> For import and export data, most of the data cleaning has been done largely during the data gathering phase, since we scrapped the website to collect the just the data that we need.</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[2]:
+In&nbsp;[11]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
-<span class="c"># This file will take the scraped data from our csv files and put it into R Data Frames</span>
-<span class="c"># for easy analysis.  The output of each function will be a Data Frame with years for</span>
-<span class="c"># rows and countries for columns.  Additionally, we will make some basic plots to identify</span>
-<span class="c"># areas of analysis that we should explore more thoroughly.</span>
-
-<span class="n">gatherIndexData</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c"># This function will gather the stock index data for each of the 25 countries whose</span>
-  <span class="c"># index data we have scraped and placed in csv files.  We will pull the data from</span>
-  <span class="c"># each csv and clean it such that we have relative changes rather than nominal values</span>
-  
-  <span class="n">indexFiles</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;./data/stock/done&quot;</span><span class="p">)</span>
-  <span class="n">indexCountries</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
-  <span class="n">new</span> <span class="o">=</span> <span class="n">TRUE</span>
-  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">indexFiles</span><span class="p">))</span> <span class="p">{</span>
-    <span class="n">indexCountries</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">substring</span><span class="p">(</span><span class="n">indexFiles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="n">filePath</span> <span class="o">=</span> <span class="n">paste</span><span class="p">(</span><span class="s">&quot;./data/stock/done/&quot;</span><span class="p">,</span> <span class="n">indexFiles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">rawData</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">FALSE</span><span class="p">)</span>
-    <span class="n">startYear</span> <span class="o">=</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">,]</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">startYear</span> <span class="o">!=</span> <span class="mi">1995</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">dummyYears</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:(</span><span class="n">startYear</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-      <span class="n">V2</span> <span class="o">=</span> <span class="n">rep</span><span class="p">(</span><span class="n">NaN</span><span class="p">,</span> <span class="n">length</span><span class="p">(</span><span class="n">dummyYears</span><span class="p">))</span>
-      <span class="n">dummyData</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">V2</span><span class="p">)</span>
-      <span class="n">prices</span> <span class="o">=</span> <span class="n">rbind</span><span class="p">(</span><span class="n">dummyData</span><span class="p">,</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="p">{</span>
-      <span class="n">prices</span> <span class="o">=</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">indexes</span> <span class="o">=</span> <span class="n">prices</span>
-      <span class="n">new</span> <span class="o">=</span> <span class="n">FALSE</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="p">{</span>
-      <span class="n">indexes</span> <span class="o">=</span> <span class="n">cbind</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  
+<span class="n">gatherTradeData</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">trade</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
   <span class="n">years</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:</span><span class="mi">2011</span>
-  <span class="n">rownames</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">=</span> <span class="n">years</span>
-  <span class="n">colnames</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">=</span> <span class="n">indexCountries</span>
-  
-  <span class="c"># Since the prices are in the countries&#39; respective currencies, we will use annual</span>
-  <span class="c"># returns to measure the performance of the index.  This way, our data will show</span>
-  <span class="c"># only the relative changes as opposed to the noisy nominal values in different</span>
-  <span class="c"># currencies.</span>
-  
-  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="n">colnames</span><span class="p">(</span><span class="n">indexes</span><span class="p">))</span> <span class="p">{</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="mi">1995</span>
-    <span class="k">while</span> <span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),])</span> <span class="o">==</span> <span class="s">&quot;NaN&quot;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="p">}</span>
-    
-    <span class="n">base</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),]</span>
-    <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),]</span> <span class="o">=</span> <span class="n">NaN</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span><span class="mi">2011</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">temp</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span>
-      <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span><span class="o">/</span><span class="n">base</span><span class="o">*</span><span class="mi">100</span>
-      <span class="n">base</span> <span class="o">=</span> <span class="n">temp</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="n">indexes2</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">indexes2</span><span class="p">)</span>
+  <span class="n">rownames</span><span class="p">(</span><span class="n">trade</span><span class="p">)</span> <span class="o">=</span> <span class="n">years</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">trade</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="c"># Now we will pull the macroeconomic indicator data from the csv files we have gathered</span>
-<span class="c"># from the World Bank Macroeconomic Indicators database.  The &quot;gatherMacroData&quot; function</span>
-<span class="c"># fits all of our macroeconomic indicators because the data was downloaded in a</span>
-<span class="c"># standardized format.  We will be making a function for each indicator so that we can</span>
-<span class="c"># import these functions in our analysis script.</span>
+<span class="n">getExportPartnerVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/export_part.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getExportProductVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/export_prod.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getImportPartnerVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/import_part.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getImportProductVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/import_prod.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getTradeIndex</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/trade_index.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
 
-<span class="n">gatherMacroData</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">macro</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-  <span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
-  <span class="n">macro</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
-  <span class="n">macro</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
-  <span class="n">names</span><span class="p">(</span><span class="n">macro</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2013</span><span class="p">)</span>
-  <span class="n">macro</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
-  <span class="n">macro2</span> <span class="o">=</span> <span class="n">macro</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
-  <span class="n">colnames</span><span class="p">(</span><span class="n">macro2</span><span class="p">)</span> <span class="o">=</span> <span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">,]</span>
-  <span class="n">macro3</span> <span class="o">=</span> <span class="n">macro2</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">macro2</span><span class="p">))</span> <span class="o">!=</span> <span class="n">ncol</span><span class="p">(</span><span class="n">macro2</span><span class="p">),]</span>
-  <span class="n">macro4</span> <span class="o">=</span> <span class="nb">apply</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">macro3</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">)</span>
-  <span class="n">macro5</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">macro4</span><span class="p">)</span>
-  <span class="n">colnames</span><span class="p">(</span><span class="n">macro5</span><span class="p">)</span> <span class="o">=</span> <span class="n">tolower</span><span class="p">(</span><span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">,])</span>
-  <span class="n">macro6</span> <span class="o">=</span> <span class="n">macro5</span><span class="p">[,</span><span class="n">colSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">macro5</span><span class="p">))</span> <span class="o">!=</span> <span class="n">nrow</span><span class="p">(</span><span class="n">macro5</span><span class="p">)]</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">macro6</span><span class="p">)</span>
-<span class="p">}</span>
+</div>
+</div>
 
-<span class="n">getCO2Emissions</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/co2emissions.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getExportsGrowth</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/exportsGSGrowth.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getGDPGrowth</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/gdpGrowth.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getGDSaving</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/gdSaving.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getInfantMortality</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/infantMortality.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getNetMigration</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/netMigration.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getRealInterestRates</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/realInterestRate.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Currency-Exchange-Rates">Currency Exchange Rates<a class="anchor-link" href="#Currency-Exchange-Rates">&#182;</a></h2>
+</div>
 
-<span class="c"># Now we will pull the exchange rate data from the csv files we have gathered from</span>
-<span class="c"># Oanda, an open source ForEx database.</span>
-
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we will pull the exchange rate data from the csv files we have gathered from Oanda, an open source ForEx database. <br /> <br /> This dataset is probably the most complex for analysis to be done during the next stage. As you might have guessed, the nominal values we have gathered in our data are in different currencies, and hence, we are unable to compare across them simply as is later on. We decided to use <strong>returns</strong> instead, and analyze how returns Year-on-Year has changed with respect to diversification of trade for a given country. We also set NA for data that is not available.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[12]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
 <span class="n">gatherExchangeData</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="n">exchangePath</span> <span class="o">=</span> <span class="s">&quot;./data/exchange_rate/&quot;</span>
   <span class="n">exchangeFiles</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">exchangePath</span><span class="p">)</span>
@@ -1991,39 +1950,148 @@ In&nbsp;[2]:
   
   <span class="k">return</span><span class="p">(</span><span class="n">exchanges</span><span class="p">)</span>
 <span class="p">}</span>
+</pre></div>
 
-<span class="c"># Now we will gather the trade data that we have stored in the csv files.  Each of the</span>
-<span class="c"># csv files contains the variance of the particular category for each country in each</span>
-<span class="c"># year.  We will gather the trade data in order to understand how diversity of trade</span>
-<span class="c"># affects countries&#39; economic performance</span>
+</div>
+</div>
 
-<span class="n">gatherTradeData</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">trade</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Stock-Index-Prices">Stock Index Prices<a class="anchor-link" href="#Stock-Index-Prices">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As in currencies, the historical prices are also in the respective countries' own currency. We again focus on the <strong>returns</strong> year-on-year for easy analysis across all countries. <br /> <br /> To give more explanation on how we do this, we take the first year data is available (from 1995-2011) as the <strong>base year</strong>, and we replace it with the value of a 100, storing the real nominal value. Then, for each subsequent year, we normalize them by taking as a fraction of the base year's real nominal value. We now have clean, normalized data that easily reveals the returns each year. Again, we set NA for data that is not available (some stock exchanges were established after 1995).</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[13]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
+<span class="n">gatherIndexData</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c"># This function will gather the stock index data for each of the 25 countries whose</span>
+  <span class="c"># index data we have scraped and placed in csv files.  We will pull the data from</span>
+  <span class="c"># each csv and clean it such that we have relative changes rather than nominal values</span>
+  
+  <span class="n">indexFiles</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;./data/stock/done&quot;</span><span class="p">)</span>
+  <span class="n">indexCountries</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+  <span class="n">new</span> <span class="o">=</span> <span class="n">TRUE</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">indexFiles</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">indexCountries</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">substring</span><span class="p">(</span><span class="n">indexFiles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">filePath</span> <span class="o">=</span> <span class="n">paste</span><span class="p">(</span><span class="s">&quot;./data/stock/done/&quot;</span><span class="p">,</span> <span class="n">indexFiles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">rawData</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">FALSE</span><span class="p">)</span>
+    <span class="n">startYear</span> <span class="o">=</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">,]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">startYear</span> <span class="o">!=</span> <span class="mi">1995</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">dummyYears</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:(</span><span class="n">startYear</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">V2</span> <span class="o">=</span> <span class="n">rep</span><span class="p">(</span><span class="n">NaN</span><span class="p">,</span> <span class="n">length</span><span class="p">(</span><span class="n">dummyYears</span><span class="p">))</span>
+      <span class="n">dummyData</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">V2</span><span class="p">)</span>
+      <span class="n">prices</span> <span class="o">=</span> <span class="n">rbind</span><span class="p">(</span><span class="n">dummyData</span><span class="p">,</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">prices</span> <span class="o">=</span> <span class="n">rawData</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">indexes</span> <span class="o">=</span> <span class="n">prices</span>
+      <span class="n">new</span> <span class="o">=</span> <span class="n">FALSE</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">indexes</span> <span class="o">=</span> <span class="n">cbind</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  
   <span class="n">years</span> <span class="o">=</span> <span class="mi">1995</span><span class="p">:</span><span class="mi">2011</span>
-  <span class="n">rownames</span><span class="p">(</span><span class="n">trade</span><span class="p">)</span> <span class="o">=</span> <span class="n">years</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">trade</span><span class="p">)</span>
-<span class="p">}</span>
+  <span class="n">rownames</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">=</span> <span class="n">years</span>
+  <span class="n">colnames</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">=</span> <span class="n">indexCountries</span>
 
-<span class="n">getExportPartnerVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/export_part.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getExportProductVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/export_prod.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getImportPartnerVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/import_part.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getImportProductVariances</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/import_prod.csv&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="n">getTradeIndex</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">gatherTradeData</span><span class="p">(</span><span class="s">&quot;./data/trade/trade_index.csv&quot;</span><span class="p">))</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="n">colnames</span><span class="p">(</span><span class="n">indexes</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">1995</span>
+    <span class="k">while</span> <span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),])</span> <span class="o">==</span> <span class="s">&quot;NaN&quot;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="p">}</span>
+    
+    <span class="n">base</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),]</span>
+    <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">k</span><span class="p">),]</span> <span class="o">=</span> <span class="n">NaN</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span><span class="mi">2011</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">temp</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span>
+      <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">as</span><span class="o">.</span><span class="n">character</span><span class="p">(</span><span class="n">j</span><span class="p">),]</span><span class="o">/</span><span class="n">base</span><span class="o">*</span><span class="mi">100</span>
+      <span class="n">base</span> <span class="o">=</span> <span class="n">temp</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">indexes2</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">indexes2</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
 </div>
 </div>
 
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Economic-Indicators">Economic Indicators<a class="anchor-link" href="#Economic-Indicators">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Lastly, we will pull the macroeconomic indicator data from the csv files we have gathered from the World Bank Macroeconomic Indicators database. The &quot;gatherMacroData&quot; function fits all of our macroeconomic indicators because the data was downloaded in a standardized format. We will be making a function for each indicator so that we can import these functions in our analysis script. As always, we set NA for missing data.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[14]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
+<span class="n">gatherMacroData</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">macro</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
+  <span class="n">macro</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
+  <span class="n">macro</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">NULL</span>
+  <span class="n">names</span><span class="p">(</span><span class="n">macro</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2013</span><span class="p">)</span>
+  <span class="n">macro</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
+  <span class="n">macro2</span> <span class="o">=</span> <span class="n">macro</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">colnames</span><span class="p">(</span><span class="n">macro2</span><span class="p">)</span> <span class="o">=</span> <span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">,]</span>
+  <span class="n">macro3</span> <span class="o">=</span> <span class="n">macro2</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">macro2</span><span class="p">))</span> <span class="o">!=</span> <span class="n">ncol</span><span class="p">(</span><span class="n">macro2</span><span class="p">),]</span>
+  <span class="n">macro4</span> <span class="o">=</span> <span class="nb">apply</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">macro3</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">)</span>
+  <span class="n">macro5</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">macro4</span><span class="p">)</span>
+  <span class="n">colnames</span><span class="p">(</span><span class="n">macro5</span><span class="p">)</span> <span class="o">=</span> <span class="n">tolower</span><span class="p">(</span><span class="n">macro</span><span class="p">[</span><span class="mi">1</span><span class="p">,])</span>
+  <span class="n">macro6</span> <span class="o">=</span> <span class="n">macro5</span><span class="p">[,</span><span class="n">colSums</span><span class="p">(</span><span class="ow">is</span><span class="o">.</span><span class="n">na</span><span class="p">(</span><span class="n">macro5</span><span class="p">))</span> <span class="o">!=</span> <span class="n">nrow</span><span class="p">(</span><span class="n">macro5</span><span class="p">)]</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">macro6</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">getCO2Emissions</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/co2emissions.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getExportsGrowth</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/exportsGSGrowth.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getGDPGrowth</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/gdpGrowth.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getGDSaving</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/gdSaving.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getInfantMortality</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/infantMortality.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getNetMigration</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/netMigration.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">getRealInterestRates</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">gatherMacroData</span><span class="p">(</span><span class="s">&quot;./data/macros/realInterestRate.csv&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2>
+</div>
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our data cleaning process loads the .csv files previously produced from data gathering into R Data Frames, with some cleaning for certain datasets along the way. We decided to do store everything into R Data Frames because this is the easiest R object to carry out analysis moving forward. In summary, we know have 4 clean 2-D R Data Frames for each of our 4 datasets: <br /> <br /> 1. <strong>TDI Data Frame</strong>: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are TDI for the country in that year. <br /> 2. <strong>Currencies Data Frame</strong>: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are <strong>normalized</strong> exchange rate averages with 1 USD for the country's currency in that year. <br /> 3. <strong>Stock Index Data Frame</strong>: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are <strong>normalized</strong> stock index averages in that country for the year. <br /> 4. <strong>Economic Indicators Data Frame</strong>: rows are years 1995-2011; columns are countries in 3-letter standard country codes; values are the respective macro-economic indicator score/metric. <br /> <br /> As we can see above, even though our datasets and sources are varied, we have cleaned them into R Data Frames having the same rows and columns for easy analysis in the next part.</p>
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2>
