@@ -2375,18 +2375,6 @@ In&amp;nbsp;[9]:
 &lt;/ul&gt;
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>Project Report</title><link href="http://ahdivnathan.github.io/exim/nb4.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb4.html</id><summary type="html">&lt;p&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Team-members-responsible-for-this-notebook:"&gt;Team members responsible for this notebook:&lt;a class="anchor-link" href="#Team-members-responsible-for-this-notebook:"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
-&lt;/div&gt;
-
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;ul&gt;
-&lt;li&gt;Team member 1: &lt;strong&gt;William Yu&lt;/strong&gt; - Contributed exchange rate data and conducted data analysis&lt;/li&gt;
-&lt;li&gt;Team member 2: &lt;strong&gt;Ahdiv Nathan&lt;/strong&gt; - Contributed trade data and conducted data analysis&lt;/li&gt;
-&lt;li&gt;Team member 3: &lt;strong&gt;Anlin Winarto&lt;/strong&gt; - Contributed stock index data and conducted data analysis&lt;/li&gt;
-&lt;li&gt;Team member 4: &lt;strong&gt;Carl Moos&lt;/strong&gt; - Contributed macroeconomic indicator data and conducted data analysis&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="Problem"&gt;Problem&lt;a class="anchor-link" href="#Problem"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
 &lt;/div&gt;
 
@@ -13290,6 +13278,18 @@ WmFKSlCy1ajwl4FZKP8A/LUhmf/Z
 &lt;/div&gt;
 &lt;/div&gt;
 
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Team-members-responsible-for-this-notebook:"&gt;Team members responsible for this notebook:&lt;a class="anchor-link" href="#Team-members-responsible-for-this-notebook:"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;ul&gt;
+&lt;li&gt;Team member 1: &lt;strong&gt;William Yu&lt;/strong&gt; - Contributed exchange rate data and conducted data analysis&lt;/li&gt;
+&lt;li&gt;Team member 2: &lt;strong&gt;Ahdiv Nathan&lt;/strong&gt; - Contributed trade data and conducted data analysis&lt;/li&gt;
+&lt;li&gt;Team member 3: &lt;strong&gt;Anlin Winarto&lt;/strong&gt; - Contributed stock index data and conducted data analysis&lt;/li&gt;
+&lt;li&gt;Team member 4: &lt;strong&gt;Carl Moos&lt;/strong&gt; - Contributed macroeconomic indicator data and conducted data analysis&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;&lt;/p&gt;</summary></entry><entry><title>About Us</title><link href="http://ahdivnathan.github.io/exim/nb5.html" rel="alternate"></link><updated>2014-05-18T00:00:00-07:00</updated><author><name>Ahdiv Nathan</name></author><id>tag:ahdivnathan.github.io,2014-05-18:exim/nb5.html</id><summary type="html">&lt;p&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;We are a team of aspiring data scientists, engineers, consultants, and food critics from a variety of backgrounds, and we are brought together by our common interest in using data-driven methods in whatever our field of work may be. We are all juniors with interests in consulting and finance, and while we are very passionate about our work, we love to work on side projects and are all very involved on campus.&lt;/p&gt;
