@@ -1,4 +1,4 @@
-title: Team MyGod Data Gathering
+title: Data Gathering
 author: Ahdiv Nathan
 date: 2014-05-18
 slug: nb1 
