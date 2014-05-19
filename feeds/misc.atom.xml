@@ -943,7 +943,7 @@ In&amp;nbsp;[7]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[21]:
+In&amp;nbsp;[1]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="k"&gt;load_ext&lt;/span&gt; &lt;span class="n"&gt;rmagic&lt;/span&gt;
@@ -952,31 +952,14 @@ In&amp;nbsp;[21]:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div class="vbox output_wrapper"&gt;
-&lt;div class="output vbox"&gt;
-
-
-&lt;div class="hbox output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
-&lt;div class="box-flex1 output_subarea output_stream output_stdout"&gt;
-&lt;pre&gt;
-The rmagic extension is already loaded. To reload it, use:
-  %reload_ext rmagic
-
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;To begin, we create the R data frames needed for our statistical analyses.&lt;/p&gt;
+&lt;p&gt;To begin, we create the R data frames needed for our statistical analyses. We do this by importing the necessary code from our Data Cleaning R File, and use the functions from that script in order to create the necessary R data frames.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[22]:
+In&amp;nbsp;[2]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -1000,12 +983,12 @@ In&amp;nbsp;[22]:
 
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;Now we will create new Data Frames that take slices of the trade Data Frame such that we can easily regress trade on our macroeconomic indicators. The new Data Frames will be specific to each indicator.&lt;/p&gt;
+&lt;p&gt;Now we will create new Data Frames that take slices of the trade Data Frame such that we can easily regress trade on our macroeconomic indicators. The new Data Frames will be specific to each indicator. This ensures that we do not have any countries in one data set that do not have corresponding data in the other data set&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[23]:
+In&amp;nbsp;[3]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -1041,7 +1024,7 @@ In&amp;nbsp;[23]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[24]:
+In&amp;nbsp;[4]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -1060,7 +1043,7 @@ In&amp;nbsp;[24]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[25]:
+In&amp;nbsp;[5]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.core.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
@@ -1075,7 +1058,7 @@ In&amp;nbsp;[25]:
 
 
 &lt;div class="hbox output_area"&gt;&lt;div class="prompt output_prompt"&gt;
-    Out[25]:&lt;/div&gt;
+    Out[5]:&lt;/div&gt;
 &lt;div class="box-flex1 output_subarea output_pyout"&gt;
 
 
@@ -2167,12 +2150,12 @@ aAw0BraLgf8LiGQwSkvH1qgAAAAASUVORK5CYII=
 &lt;/div&gt;
 
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;We define the function to regress the Trade Diversification Index of a country with one of its stock index, currency, or economic indicators.&lt;/p&gt;
+&lt;p&gt;We define the following function to regress the Trade Diversification Index of a country with one of its stock index, currency, or economic indicators.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[26]:
+In&amp;nbsp;[6]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -2189,7 +2172,7 @@ In&amp;nbsp;[26]:
 
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;Basic linear regression does not show very clear results for certain variables when analyzed with TDI. Following more qualitative discussions, we have determined a very plausible reason. We are comparing the variable (e.g. Net Migration) with TDI in that same year. Keeping in mind that we are trying to study the effects of trade diversification, those effects may well be occuring, but will only be envident in the form of such metrics like Net Migration after some time. &lt;br /&gt; Hence, we decided to lag certain variables with respect to TDI to make more meaningful statistical analyses. The following functions adjust the vectors accordingly.&lt;/p&gt;
+&lt;p&gt;Basic linear regression does not show very clear results for certain variables when analyzed with TDI. Following more qualitative discussions, we have determined a very plausible reason. We are comparing the variable (e.g. Net Migration) with TDI in that same year. Keeping in mind that we are trying to study the effects of trade diversification, those effects may well be occuring, but will only be envident in the form of such metrics like Net Migration after some time. &lt;br /&gt; &lt;br /&gt; Hence, we decided to lag certain variables with respect to TDI to make more meaningful statistical analyses. The following functions adjust the vectors accordingly. Depending on the variable in question, we investigated lagging the variable by up to 2 years, and lagging the TDI by up to 2 years.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
@@ -2292,12 +2275,12 @@ In&amp;nbsp;[27]:
 &lt;/div&gt;
 
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;We define the function to correlate Trade Diversification Index of a country with one of its stock index, currency, or economic indicators.&lt;/p&gt;
+&lt;p&gt;We define the following function to correlate Trade Diversification Index of a country with one of its stock index, currency, or economic indicators.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[28]:
+In&amp;nbsp;[7]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;
@@ -2313,16 +2296,16 @@ In&amp;nbsp;[28]:
 
 &lt;/div&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Kmeans-Clustering"&gt;Kmeans Clustering&lt;a class="anchor-link" href="#Kmeans-Clustering"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="K-means-Clustering"&gt;K-means Clustering&lt;a class="anchor-link" href="#K-means-Clustering"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
 &lt;/div&gt;
 
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;The following functions generate the plots for kmeans clustering.&lt;/p&gt;
+&lt;p&gt;The following functions generate the plots for k-means clustering.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[29]:
+In&amp;nbsp;[8]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="k"&gt;R&lt;/span&gt;

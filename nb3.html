@@ -1825,7 +1825,7 @@ World Trade Project            </a>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[21]:
+In&nbsp;[1]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%</span><span class="k">load_ext</span> <span class="n">rmagic</span>
@@ -1834,31 +1834,14 @@ In&nbsp;[21]:
 </div>
 </div>
 
-<div class="vbox output_wrapper">
-<div class="output vbox">
-
-
-<div class="hbox output_area"><div class="prompt"></div>
-<div class="box-flex1 output_subarea output_stream output_stdout">
-<pre>
-The rmagic extension is already loaded. To reload it, use:
-  %reload_ext rmagic
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To begin, we create the R data frames needed for our statistical analyses.</p>
+<p>To begin, we create the R data frames needed for our statistical analyses. We do this by importing the necessary code from our Data Cleaning R File, and use the functions from that script in order to create the necessary R data frames.</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[22]:
+In&nbsp;[2]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
@@ -1882,12 +1865,12 @@ In&nbsp;[22]:
 
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we will create new Data Frames that take slices of the trade Data Frame such that we can easily regress trade on our macroeconomic indicators. The new Data Frames will be specific to each indicator.</p>
+<p>Now we will create new Data Frames that take slices of the trade Data Frame such that we can easily regress trade on our macroeconomic indicators. The new Data Frames will be specific to each indicator. This ensures that we do not have any countries in one data set that do not have corresponding data in the other data set</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[23]:
+In&nbsp;[3]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
@@ -1923,7 +1906,7 @@ In&nbsp;[23]:
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[24]:
+In&nbsp;[4]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
@@ -1942,7 +1925,7 @@ In&nbsp;[24]:
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[25]:
+In&nbsp;[5]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">Image</span>
@@ -1957,7 +1940,7 @@ In&nbsp;[25]:
 
 
 <div class="hbox output_area"><div class="prompt output_prompt">
-    Out[25]:</div>
+    Out[5]:</div>
 <div class="box-flex1 output_subarea output_pyout">
 
 
@@ -3049,12 +3032,12 @@ aAw0BraLgf8LiGQwSkvH1qgAAAAASUVORK5CYII=
 </div>
 
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We define the function to regress the Trade Diversification Index of a country with one of its stock index, currency, or economic indicators.</p>
+<p>We define the following function to regress the Trade Diversification Index of a country with one of its stock index, currency, or economic indicators.</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[26]:
+In&nbsp;[6]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
@@ -3071,7 +3054,7 @@ In&nbsp;[26]:
 
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Basic linear regression does not show very clear results for certain variables when analyzed with TDI. Following more qualitative discussions, we have determined a very plausible reason. We are comparing the variable (e.g. Net Migration) with TDI in that same year. Keeping in mind that we are trying to study the effects of trade diversification, those effects may well be occuring, but will only be envident in the form of such metrics like Net Migration after some time. <br /> Hence, we decided to lag certain variables with respect to TDI to make more meaningful statistical analyses. The following functions adjust the vectors accordingly.</p>
+<p>Basic linear regression does not show very clear results for certain variables when analyzed with TDI. Following more qualitative discussions, we have determined a very plausible reason. We are comparing the variable (e.g. Net Migration) with TDI in that same year. Keeping in mind that we are trying to study the effects of trade diversification, those effects may well be occuring, but will only be envident in the form of such metrics like Net Migration after some time. <br /> <br /> Hence, we decided to lag certain variables with respect to TDI to make more meaningful statistical analyses. The following functions adjust the vectors accordingly. Depending on the variable in question, we investigated lagging the variable by up to 2 years, and lagging the TDI by up to 2 years.</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
@@ -3174,12 +3157,12 @@ In&nbsp;[27]:
 </div>
 
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We define the function to correlate Trade Diversification Index of a country with one of its stock index, currency, or economic indicators.</p>
+<p>We define the following function to correlate Trade Diversification Index of a country with one of its stock index, currency, or economic indicators.</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[28]:
+In&nbsp;[7]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
@@ -3195,16 +3178,16 @@ In&nbsp;[28]:
 
 </div>
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Kmeans-Clustering">Kmeans Clustering<a class="anchor-link" href="#Kmeans-Clustering">&#182;</a></h2>
+<h2 id="K-means-Clustering">K-means Clustering<a class="anchor-link" href="#K-means-Clustering">&#182;</a></h2>
 </div>
 
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The following functions generate the plots for kmeans clustering.</p>
+<p>The following functions generate the plots for k-means clustering.</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[29]:
+In&nbsp;[8]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="o">%%</span><span class="k">R</span>
