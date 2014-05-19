@@ -33,7 +33,6 @@ MENUITEMS = [('Report', 'nb4'),
              ('Data Gathering', 'nb1'),
              ('About Us', 'nb0'),
             ]
-reversed(MENUITEMS)
 
 DISPLAY_TAGS_ON_SIDEBAR = False
 
