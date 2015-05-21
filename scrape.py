@@ -21,7 +21,7 @@ def load_country_dict():
     country_dict = {}
     for row in reader:
         country_dict[row[0]] = row[1]
-    return country_dict
+	return country_dict
 
 def get_product_data(year, country):
     """
